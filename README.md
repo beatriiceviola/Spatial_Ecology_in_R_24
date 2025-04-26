@@ -3,17 +3,17 @@ This repository contains codes for Spatial Ecology in R at Unibo
 
 ## Code ✍️
 
-Main scripts
-Intro scripts
-Population
-Community
++Main scripts
++Intro scripts
++Population
++Community
 
 
 ## How exam works 📖
 
 Build one's project based on following steps
 
-Write script in Github
-Build presentation
-Present your project
++Write script in Github
++Build presentation
++Present your project
 
