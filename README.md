@@ -1,18 +1,19 @@
 # Spatial_Ecology_in_R_24
-#This repository contains codes for Spatial Ecology in R at Unibo
-#Code ✍️
+This repository contains codes for Spatial Ecology in R at Unibo
 
-#main scripts
+Code ✍️
 
-#intro scripts
-#population
-#community
-#the whole code can be found in Code folder
+main scripts
 
-#How exam works 📖
+intro scripts
+population
+community
+the whole code can be found in Code folder
 
-#build one's project based on following steps
+How exam works 📖
 
-#write script in Github
-#build presentation
-#presentation
+build one's project based on following steps
+
+write script in Github
+build presentation
+presentation
