@@ -1,60 +1,77 @@
-# how to calculate density of individuals in the population
-# to import a packages install.packages is the function to use
-# let's use the function
-install.packages("spatstat") # "" protects from exit R in and out of package
-# to use the package library () without quotes because it's already in R now
-# recalling the package
+# Code related to population ecology
+
+# Let's install new packages in R
+# To do so we use the function "install.packages("name of the package")"
+# Since we're importing external data in R it's mandatory to quote the name of the package
+
+# The first package that we're going to install is spatstat
+# Spatstat is used for point pattern analysis
+
+install.packages("spatstat") 
+
+# To verify that the package has been installed we use the function "library()"
+# To use this function the quotes won't be needed since the package has already been installed
+
 library(spatstat)
 
-# use dataset bei in R: it tells how many points in the database and some info on window 
+# Now we will use the dataset bei, which is inside spatstat
+# The dataset bei represent spatial point pattern data
+
 bei
 
-# to get a plot a visual perception of dataset
+# Let's plot this dataset
+# This plot is generated to visualize the spatial distribution of points
+# All the points rapresent monitored trees in the Amazon rainforest
 
-plot(bei)
+plot(bei) 
 
-# let's change the graph w/ closed dots
-plot(bei, pch=19) # remember to put space between argumets but avoid between brakes and function
+# Let's change the graphic since the points are too big
+# To do so, as we've already seen, we use the functions "pch" and "cex"
 
-plot(bei, pch=19, cex=.5)
+plot(bei, pch=19, cex=0.2)
 
-# we can figure out how they are dispersed but not why they are so
-
-# additional dataset for covariates soil types, temperature, etc. 
-bei.extra # list of pixel images raster type
-
+# Now we can explore additional dataset
+# We use the "bei.extra" dataset, it gives us a list of pixel images (raster type)
+bei.extra 
 plot(bei.extra)
 
-# let's look at elev (elevation) so we extract one of the two image which are elements
-# extracting data assigning an element to object elevation and linking elev to bei.extra using $ as a "rope" 
-elevation <- bei.extra$elev
+# We are gonna need just one the two elements of the dataset (elevation and gradient)
+# Let's use only a part of the dataset: elevation
+# The symbol $ links elevation to the dataset
+bei.extra$elev
 
-# then i plot only elev
+# Now we create a new object called elevation and we plot it
+elevation <- bei.extra$elev
 plot(elevation)
 
-# i just want the first element from bei.extra using [[]] and a number 1 without using $
+# Also instead of using the symbol $ I can also use [[1]] to select elements
+# In this way R will select the first element of the dataset, which is elevation in this case
+# We assign it to a new object and we plot it
 
 elevation2 <- bei.extra[[1]]
+plot(elevation2)  # [[]] is more powerful because I dont'have to remember the name of the element I need
 
-# or if i have just an object 
+# Now we want to create a density map, but how do we let R calculting the plots as a continuous image?
+# By considering each group of dots as a single unit,
+# where each unit is going to be more or less dense according to the number of dots present in that area.???????????????????'
 
-plot(bei.extra[[1]]) # [[]] more powerful because i dont'have to remember the name of the element i need
-plot(elevation2)
-
-
-# density is the function inside spatstat to calculate density of population
-# let's build a density map starting from points
+# Now let's see other functions
+# We need to pass from point to a continuous surface
+# First of all we use the "density" function inside spatstat to create a density map and we rename it
 density(bei) 
-# put density in an obj
-densitymap <- density(bei)
-densitymap # so every pixel has points inside
-plot(densitymap)
+densitymap <- density(bei) # from points we are now dealing with pixels
+
+# Now if we plot this new object we obtain the density of trees over the area
+plot(densitymap) # blue is low density while yellow is high density
+
 
 # Is there a possibility to show togheter the map of density and the original points?
-points(bei) # puts points on prevoius graph plot (densitymap)
+# Yes, we can use the "points()" function
+# This function allow us to add a plot to the current one without erasing this last
+points(bei) # puts points on prevoius graphic (densitymap)
 points(bei, col="green")
 
-######DAY2
+#?? da qui mancaaaaaa
 # multiframe with par.function
 
 par(mfrow=c(1,2)) # 1 and 2 are elements of the same arrow 
