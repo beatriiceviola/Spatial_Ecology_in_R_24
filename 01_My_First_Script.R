@@ -1,49 +1,63 @@
-# there are 3 concepts:
-# 1. object
-# 2. the assignemnt (<-)
-# 3. comment (like this one!)
-# 4. functions (like function 'c()' and 'plot()' containing different arguments
-# 5. arrays (set of different elements)
+# Under the hashtag the software R will not detect the code. So this is how we can comment our script
 
-2 + 3 # this is my first operation in R 
+# Exercise
+# We will use R as a simple calculator
 
-# it's important to make use of objects
-cato <- 2 + 3 #the result of the operation is assigned to an object called 'cato'
+2 + 3 
+
+# Now we can assign our value to an object by adding the symbol <-
+# In this way we create a new variable with an assigned value
+
+cato <- 2 + 3 
+cato # By plotting "cato" we will diretcly have the result 5
+
+# Let's do another example
+
+beatrice <- 4 + 2
+beatrice 
+
+# Now we can do many more operations by using our new variables
+
+cato + beatrice
+cato ^ beatrice
+(cato + beatrice) ^ cato 
 
 
-maria <- 4 + 2
-maria 
+# Arrays or vectors: a series of info coded all together
+# We concatenate all the data by using the "c" function
+# In this way we can create an array, the objects inside are all called arguments
 
-cato + maria
+luca <- c(10, 20, 30, 40, 50) 
+luca # Let's run the code
 
-cato ^ maria
-
-(cato + maria) ^ cato 
-
-
-# arrays or vectors
-andrea <- c(10, 15, 20, 50, 70) # concatenated objects in a function 
-# all arguments are separted by commas in a function
-andrea
-
+# Now let's add some data
+# This is going to be our second variable
 sofia <- c(100, 200, 300, 400, 500)
 
-# now i want to correlate andrea and sofia, eg. reationship between amount of co2 and the fruits 
-# i use function 'plot'
+# Now we can correlate the two variables by creating a plot
+# To create a plot we use the "plot" function
+# Eg. reationship between amount of CO2 and fruits
+plot(sofia, luca) # By plotting these two variables together we observe a direct correlation between them
 
-plot(sofia, andrea)
+# Now I can make my plot look better by changing the symbols in it
+# To modify the symbols we use "pch=" in the plot's argument
+# To know which one I want to use I can google "symbols in R" 
+# or I can check the site https://www.datanovia.com/en/blog/pch-in-r-best-tips/
 
-# i can change stuff in the plot
-# symbols, as black filled circles
-# pch R software: each number associated with a symbol 
-# check the site https://www.datanovia.com/en/blog/pch-in-r-best-tips/
+plot(sofia, luca, pch=19) 
 
-plot(sofia, andrea, pch=19) # sofia here is an argument but no space between parenthesis 
+# Another change that we can make is the dimension of our symbol
+# To do so we use "cex=" in the argument of the plot
 
-plot(sofia, andrea, pch=19, cex=2) # cex to modify dimension of points bigger 
+plot(sofia, luca, pch=19, cex=2) # In this way we make the fots bigger 
+plot(sofia, luca, pch=19, cex=0.5) # In this way we make them smaller
 
-plot(sofia, andrea, pch=19, cex=0.5) # to modify dimension of points 0.5 or smaller
+# Then we can modify the color by using "col=" in the argument
+# To choose which color we either google "colors in R"
+# or check this link https://r-graph-gallery.com/42-colors-names.html
 
-plot(sofia, andrea, pch=19, cex=2, col="blue") # col to modify color in https://r-graph-gallery.com/42-colors-names.html
+plot(sofia, luca, pch=19, cex=2, col="blue") 
 
-plot(sofia, andrea, pch=19, cex=2, col="blue", xlab="C02", ylab="amount of fruits") # to modify labels 
+# One last change that I can m,ake is to add the labels in the plot
+# To do so we use "xlab=" to add a label to the x axis and "ylab=" to add a label in the y axis
+plot(sofia, luca, pch=19, cex=2, col="blue", xlab="C02", ylab="amount of fruits") 
