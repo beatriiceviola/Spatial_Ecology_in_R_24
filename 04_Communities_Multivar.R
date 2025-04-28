@@ -1,25 +1,29 @@
-# community level
-
-# code for multivariate analysis of species x plot data in communities
-
-# install package vegan from CRAN  
+#This code is for multivariate analysis of species x plot data in communities
+# First we install the package vegan from CRAN  
 
 install.packages("vegan")
 library(vegan)
 
-data(dune)
+# Let's load the dune dataset, which contains vegetation data
 
-dune 
-# i obtain the matrix 
+data(dune) # i obtain the matrix 
 
-head(dune) # first 6 lines restricted for each sample 6 plots 
+# To see the structure of the dataset I display the first 6 rows with head()
+head(dune) 
 
-View(dune) # to see back the whole table; remember capital letter V
+# To see the whole table i use View() with a capital letter
+View(dune) 
 
-# in the package vegan the analysis is fast and simple with function decorana of the dataset dune: 
+#Da qui manca
+#Maria
+# In the package vegan the analysis is fast and simple with function decorana of the dataset dune: 
 # from help: Performs detrended correspondence analysis and basic reciprocal averaging or orthogonal correspondence analysis.
 # it is a detrended corresposndace analysis and basic reciprocal avaraging
 # useful when the range is quite spread out and wide, it compacts mathemathically the data reducimg dimensions and widespread of data
+#Gioia
+# Starting using the decorana function or "Detrended Correspondence Analysis"
+# It helps to see how the different species are correleted between each other in a plot.
+# We take the date and reshape them in a simple manner.
 
 # Analysis
 decorana(dune)
