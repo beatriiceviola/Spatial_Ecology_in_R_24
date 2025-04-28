@@ -71,43 +71,55 @@ plot(densitymap) # blue is low density while yellow is high density
 points(bei) # puts points on prevoius graphic (densitymap)
 points(bei, col="green")
 
-#?? da qui mancaaaaaa
-# multiframe with par.function
 
-par(mfrow=c(1,2)) # 1 and 2 are elements of the same arrow 
+# Now we want to plot multiple graphics or images to visualize them together
+# To do so we can use the "par()mfrow=" function
+# In it's argument, adding the concatenate function "c()" we will firstly put the number of the rows
+# and secondly the number of the columns that we ant
 
-#now put sets in the elements
+par(mfrow=c(1,2)) # 1 and 2 are elements of the same arrow, so we have one row and two columns
+
+# Now we tell the software what we want to plot
 
 plot(elevation2)
 plot(densitymap)
-# the order is set like this sx elev2 a dx density
-# if i want one above the other i'd have 2 rows and 1 coloumn
+
+# If I want one above the other I'd have 2 rows and 1 coloumn
  par(mfrow=c(2,1))
 
-#if i want again just one map at the centre of the screen and not above or at a side
-# i use dev.off() control multiple devides. destroys the device null device
+# When I want to delete a plot I can use the "dev.off()" function
 
 dev.off()
 
-#changing colours to map
+# To change the colors I can use the "colorRampPalette()" function
+# This one alow me to create a custom color palette, so firstly I have to specify the colors that I want
+# An then I specify a number that states the gradient
+# Since R is a sensitive case software it's important to write this function with the R and the P in capital letters
+# And again we're using the concatenate function since we have more elements in the argument
+
 cl <- colorRampPalette(c("red", "orange", "yellow")) (3)
-# watch out capital letters 
-# elements of the same arrow so use c()
-# stating (3) is for gradients but the gradients are written like taht in brakets
-# assign it to an obj
+
+# Now we plot the graphic with the new colors
+
 plot(densitymap, col=cl)
 
-# let's increase the amount of gradients 
+# To increase the smoothness of the plot I can add more gradient
 cl <- colorRampPalette(c("red", "orange", "yellow")) (100)
 
-# exercise: change teh color ramp palette using different colors 
-# search colors in R Columbia university for gradients
+# To find all available colours, one can search in browser for "colors in R" 
+# R colors cheat-sheet by Dr. Ying Wei: http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
 
-# exercise: build a multiframe and plot the densitymapwith two different color ramp palette
+# Exercise: change the color ramp palette using different colors 
+
+col <- colorRampPalette(c("azure3", "darkorchid", "mediumaquamarine", "salmon"))(100)
+plot(densitymap, col=cln)
+
+
+# Exercise: build a multiframe and plot the densitymapmwith two different color ramp palette
 par(mfrow=c(1,2))
-cl <- colorRampPalette(c("palegreen", "purple3", "orange3")) (100)
+cl <- colorRampPalette(c("darkseagreen1", "purple3", "tan1")) (100)
 plot(densitymap, col=cl)
-cl <- colorRampPalette(c("olivedrab2", "orange1", "red3")) (100)
+cl <- colorRampPalette(c("forestgreen", "sienna1", "red3")) (100)
 plot(densitymap, col=cl)
 
 # dev.off() to kill everything
