@@ -1,100 +1,112 @@
-# why populations disperse over the landscape in a certain manner?
+# Why populations disperse over the landscape in a certain manner?
 
-# let's install two new packages "terra" and "sdm"
-install.packages("sdm") # species distribution models
+# Let's install two new packages "terra" and "sdm"
+# We're going to need again the install.packages() function
+# Recall that when we install new packages that are outside of R we need to use the quotes
+# The package sdm is used for species distribution modelling while
+# terra is used to manipulate spatial data and to read files
+
+install.packages("sdm") 
 install.packages("terra")
+
+# To make sure that they are now installed we use library()
 
 library(sdm)
 library(terra) 
 
-# In R now I have a folder called sdm; inside the folder there’s another one called external. 
+# To check file's names inside an R folder we use "system.file()" function
+#Specifying the name of the folder, the name of the file and then the package
 
-# how to make a subset of data, selecting some of those
+system.file("external")
 
-sistem.file() # finds names of files in package for example the external folder
+# In the external folder I have many dataset but I want one of them called species.shp
 
-system.file("external") # """ because i'm extracting a folder 
+system.file("external/species.shp")  # shp is an extension meaning shape file extension 
 
-# in external i have many dataset, i want one of them called species.shp
 
-system.file("external/species.shp") 
-# shp is an extension meaning shape file extension 
-# /  means i want the  file called species in folder external 
-
-# since external is used to be in all folders let's write which package we want the external from:
+# Since external is used to be in all folders let's write which package we want the external from:
 
 file <- system.file("external/species.shp", package="sdm")
-[1] "C:/Users/anton/AppData/Local/R/win-library/4.4/sdm/external/species.shp"
 
-# translate the shp file in a type of file R can use in vector
-# the function is needed because shp cannot be read by R
+# The full path in my PC is "C:/Users/anton/AppData/Local/R/win-library/4.4/sdm/external/species.shp"
+
+# Now let's translate the shp file in a type of file R can use in vector
+# This function is essential since shp cannot be read by R and it's inside the terra package
 vect(file) 
 
-# in the meantime download library(terra)
+# As always to make thing clearer we assign the function to an object
 
-# assign the function to an obj
 rana <- vect(file)
 rana 
-# we obtain a series of info class spatvect, geometry (i could have points, vectors or polygones)
-# in the file there's a table: for each point i have data occurance (1)/not occurance (0) for each species
-# i know whether in point i, j, n, rana is present or not
 
+# We obtain a series of info class spatvect, geometry (I could have points, vectors or polygones)
+# In the file there's a table: for each point I have data occurance (1)/not occurance (0) for each species
+# I know whether in point i, j, n, rana is present or not
 
-# to see all data for rana for all points i type:
+# Display the occurence data
 
-rana$Occurrence # maintain capital letter because R is capital sensitive
+rana$Occurrence # always maintain capital letter 
 
 plot(rana) # points representing presence or absence of rana
 
-# select only data containing 1 or presence of rana cutting out absence
+# We obtaain 0 if the species is absent, 1 if it is present
+# 0 means absent and it's an uncertain data, it could be a mistake
+# In this case it could happen the data collector misses the species due to a mistake (many reasons possible)
 
-# let's use sequel (sql) language on dataset rana -> used to select some data from a dataset which is rana 
-# select all points from rana where occurrence equals 1 is translated in 
 
-pres<- rana[rana$Occurrence==1 ;]
+# Let's plot only the points where the species is present
+# To do so we use the previoulsy formed link (rana$occurance) as equal (==) to the
+# elements that we want to extrapolate (1 since in this occurance 1 means presence)
+# To end the input we use ;
 
-# in sql language == meaning equal to while != not equal to
-# to end the input use ; 
-# by writing rana before []: extract from the whole dataset rana 
-# $ means: extract Occurance from rana where occurrence is equal to 1
-# in R we'd use [[]] to extact data from a dataset
+pres <- rana[rana$Occurrence==1 ;]
 
-# build a multiframe: first image is rana, second image is pres 
+# Exercise: build a multiframe: first image is rana, second image is pres 
+
 par(mfrow=c(1,2))
 plot(rana)
 plot(pres)
 
-# exercise: select data from rana with only absences
-# uncertainity is higher for absences due to observer bias (non so se manca davvero, mentre so se c'è perchè l'ho visto)
-abse<- rana[rana$Occurrence==0]
-plot(abse) 
+# Exercise: select data from rana with only absences
+# Uncertainity is higher for absences due to observer bias (I dont' know if the species is actually
+# missing or if it was just not seen)
 
-# exercise: plot in a multiframe presence beside absences 
+abs <- rana[rana$Occurrence==0]
+plot(abs) 
+
+# Exercise: plot in a multiframe presence beside absences 
+
 par(mfrow=c(1,2))
 plot(pres)
-plot(abse)
+plot(abs)
 
-# exercise the same but one above the other 
+# Exercise: the same but one above the other 
+
 par(mfrow=c(2,1))
 plot(pres)
-plot(abse)
+plot(abs)
 
-# exercise plot presences in blue together with absences in red 
-plot(pres, col="blue") # open teh plot with presence and then 
-points(abse, col="red", pch=19, cex=2) # use points to highlight absences
+# Exercise plot presences in blue together with absences in red 
 
-# Covariates, why species distributed in a certain manner?
-# let's considerate the variable elevation 
-# ascii related to raster sequential file in language .asc
+plot(pres, col="blue") # First I open the plot with presence and then 
+points(abs, col="red", pch=19, cex=2) # I use points to highlight the absences in blue
 
-elev <- system.file("external/elevation.asc", package="sdm") # it isn't a vector file in .shp but a raster file in .asc
-# now i have the dataset elev which is raster so i use rast() to make it okay for R
+
+# How to import an image as a file from outside R?
+# We always use the system.file() function but this time we want the file elevation.asc
+# "asc" is a type of file like .jpeg
+
+elev <- system.file("external/elevation.asc", package="sdm") # this time it's not vector file in .shp but a raster file in .asc
+
+# To make it usable to R we won't use vect() but rast()
+# rast() function in terra is used to read raster objects
 elevmap <- rast(elev)
 
-# change colours of the elevamap by the colorRampPalette function
-cln<- colorRampPalette(c("purple4", "orange", "olivedrab2")) (100)
+# Exercise: change colors of the elevamap with the colorRampPalette function
+
+cln<- colorRampPalette(c("purple2", "orange1", "darkmagenta")) (100)
 plot(elevmap, col=cln)
 
-# exercise: plot the presence together with elevetion map
-plot(elevmap, col=cln)
-points(pres, pch=19) 
+# Exercise: plot the presence together with elevetion map
+plot(elevmap, col=cln) # First plot the elevation map
+points(pres, pch=19) # And then we add the points of the presence
