@@ -1,127 +1,172 @@
 # Code for managing and visualizing remote sensing data
 
-# we need devtools to import packages from Github
-install.packages("devtools")
-library(devtools)
+# Let's install devtools, a package in CRAN that we need to create a connetcion with Github
 
-# install_github("") is the function of devotools 
-# user/package's name
+install.packages("devtools")
+library(devtools) # Then we check if it was correctly installed
+
+# Now, to install a package from GitHub we will need the function "install_github("")"
+# that is contained in devtools
+# Inside this function I'll put the name of the user and the naame of the package that I want
+# in our case the user is "ducciorocchini" and the package is "imageRy"
+
 install_github("ducciorocchini/imageRy")
 library(imageRy)
 
-# Alternative: to let other know where is the package from
+# To let everyone who's reading my code know frome where I tookthis package I can write it down like this:
+
 devtools:: install_github("ducciorocchini/imageRy") 
+
+# Every time I open up R again I won't need to reinstall the packages that I need
+# But I'll always need to recall them with "library()"
+
+
+# Another package that we need to install is "ggplot2" 
+# This alows me to make more beautiful graphic
 
 install.packages("ggplot2")
 library(ggplot2)
 
-# to get the list of all data inside imageRy
+# Let's make a list of all the images contained in the package imageRy
+# Every function in this package starts wit im.
+
 im.list()
 
-# sentinel.dolomites.b2.tif data coming out of esa copernicus and Sentinel-2 is the name of the satellite
-# b2 stands for blue 
-# so working in 490nm, very short wavelenght, all objects reflecting blue are visible
-# every function begins with prefix im. for the package
-# import the data altought they are in R
+# To import a specific image we use "im.import("")"
+# In particular we want the image b2 from Sentinel-2 which correspond to the band of blue
+# So working in 490nm, very short wavelenght, all the objects reflecting blue will be visible
+
 b2 <-im.import("sentinel.dolomites.b2.tif" )
 
-# use another colRampPalette
-cl<- colorRampPalette(c("black", "grey", "lightgrey")) (100)
+# As always we can chenge the colors using the colorRampPalette function
+# Every color in this function needs to be under quotes and 
+# we have to specify the number of shades that we want
+
+cl <- colorRampPalette(c("cyan4","magenta","cyan", "chartreuse"))(100)
 plot(b2,col=cl)
 
-# refelctance 0<x<1 but here it's rescaled
-
-# b3 is band for 560nm so import the image
-
-# Exercise: import b3 green and plot with the previous palette
+# Let's now import other images corresponding to other bands:
+# In particular
+# green band:
 b3<- im.import("sentinel.dolomites.b3.tif")
 plot(b3, col=cl)
 
-# b2 and b3 are separated
-# import b4 665nm for red band 
+# red band
 b4<- im.import("sentinel.dolomites.b4.tif") 
 plot(b4, col=cl)
 
-# b8 is near infrared (VNIR) is 840nm
-# we dont't use b5,b6,b7 for the different resolution of 20 m instead of 10m
-# import NIR band
+# near infrared band (NIR)
 b8<- im.import("sentinel.dolomites.b8.tif") 
 plot(b8, col=cl)
-# since b8 is NIR it's strictly related to vegetation. Why?
 
-# par() function to make a Multiframe of images not talking to each other
-# first 3: mostly similar while Plotb8 adds additional info
+# We dont't use b5,b6,b7 for the different resolution of 20 m instead of 10m
+
+# Let's create a multiframe that will alow us to see all the four images together
+# We will use the par() function and we need 2 rows and 2 columns
+# the rows always go before the columns, and, since it's an array, we always use the concatenate function
+
 par(mfrow=c(2,2))
+
+# This function creates the frame (2x2 in our case)
+# But now we have to plot again the images to put them inside the frame
+
 plot(b2, col=cl)
 plot(b3, col=cl)
 plot(b4, col=cl)
 plot(b8, col=cl)
 
-# stack them in a single image, layers overlapped in the same image made of 4 layers with data inside
-# when i plot sentstack each of the 4 images appears 
-# now it's easier to manipulate it as a single object containing all info
-# faster than par() to obtain multifrmae 2x2
-sentstack<- c(b2, b3, b4, b8)
+# As we can see the first 3 images are pretty similar between each other, the only one
+# which is significatly different is the NIR
+
+# STACKSENT
+# Thanks to the stack I'm able to overlap the different layers (4 bands) to obtain one satellite image
+# Now it's easier to manipulate it as a single object containing all the infos
+# Firstly we create an array with our four bands thanks to the function concatenate 
+# and then we assign it to an object
+
+stacksent<- c(b2, b3, b4, b8)
 plot(sentstack, col=cl)
 
-# i want to plot only one layer of the data with [[]] because it's a 2D image
+# It's faster then the multiframe but in this case the frame is always 2x2 and I can't choose it
+# To cancel my plot I'll always use
 dev.off()
-plot(sentstack[[1]], col=cl) 
-# or 
-plot(sentstack[[4]], col=cl)
 
-# multiframe with different colour palette
-# note: if i plot only a band, as b2, range blue-yellow can be read by daltonics as well
-par(mfrow=c(2,2))
+# If I want to visualize only one of the bands in my stack I have to
+# specify that from my array I just want, for example, the first object by using  [[]]
+# I use two squared parenthesis because it's a double dimensional image
 
-clb<- colorRampPalette(c("dark blue", "blue", "light blue")) (100)
-plot(b2, col=clb)
+plot(stacksent[[1]], col=cl) 
 
-# Exercise: plot the same for the  band b3, b4, b8
-clb<- colorRampPalette(c("dark green", "green", "light green")) (100)
-plot(b3, col=clb)
-
-clb<- colorRampPalette(c("dark red", "red", "pink")) (100)
-plot(b4, col=clb)
-
-clb<- colorRampPalette(c("brown", "orange", "yellow")) (100)
-plot(b8, col=clb)
-
-# remeber: 
+# Since it will be useful in the future let's create an index to summarize to which
+# element of the stacksent correspond which band
 # stacksent[[1]]= b2= blue
 # stacksent[[2]]= b3= green
 # stacksent[[3]]= b4= red
-# stacksent[[4]]= b8= NIR
-# b8 has the higher discriminated resolution, many use this band
+# stacksent[[4]]= b8= nir
+
+# Exercise: do a multiframe with different color palette
+# Note: if I plot only a band, as b2, range blue-yellow can be read by daltonics as well
+par(mfrow=c(2,2))
+
+cl<- colorRampPalette(c("dark blue", "blue", "light blue")) (100)
+plot(b2, col=cl)
+
+# Exercise: plot the same for the  band b3, b4, b8
+# b3= green band
+cl<- colorRampPalette(c("dark green", "green", "light green")) (100)
+plot(b3, col=cl)
+
+# b4= red band
+cl<- colorRampPalette(c("dark red", "red", "pink")) (100)
+plot(b4, col=cl)
+
+# b8= nir band
+cl<- colorRampPalette(c("brown", "orange", "yellow")) (100)
+plot(b8, col=cl)
+
 
 # RGB plotting
-# combine the colours together in RGB: red green and blue are filters used by devices to get new colours
-# we assign to each band a layer or filter of the RGB
-# use the function from imageRy im.plotRGB()
-# inside () specify object and bands associated 
-# in our case it's sentstack, then specify the filter to apply to each band
+# RGB are three filters: Red, Green, Blue
+# To plot an RGB image we'll use the function from imageRy im.plotRGB()
+# Inside the parenthesis I'll specify the object and the bands associated
+# In our case the object is stacksent and then I specify which filter to apply to each band
 
-# get an image in real colours
-im.plotRGB(sentstack, r=3, g=2, b=1) 
+# For example by plotting im.plotRGB(stacksent, r=3, g=2, b=1) I'll obtain an image in real colors
+# since I know that in my stacksent 3 is the red band that I leave on the red filter
+# 2 is the green band that I leave on the green filter and
+# 1 is the blue band that I leave on the blue filter
 
-# RGB has 3 component but we have 4 bands
-# by switching numbers we get an image in false colours so to add additional information that our eyes cannot perceive
-im.plotRGB(sentstack, r=4, g=3, b=2) 
+im.plotRGB(stacksent, 3, 2, 1) # I can also avoid to write down r=, g= and b=
 
-# why putting NIR on red?
-# everything that reflects NIR is visualized as red 
-# vegetation reflects a lot in NIR
-# that's why it's common to put NIR on top of red band of RGB
+# As we've seen RGB has 3 component but we have 4 bands
+# So, since the red green and blue bands give me similar informations
+# I can also choose to put the NIR band on the red filter instead of the red band
+# In this way everything that reflects the near infrared will appear red and I'll gain new informations
+# Especially on vegetation because this one reflects a lot in NIR
 
-# let's try to put NIR on top of green band obtaining another false colour image
-im.plotRGB(sentstack, r=3, g=4, b=2)
+im.plotRGB(stacksent, 4, 3, 2) 
+
+# Let's try to put NIR on top of green band 
+
+im.plotRGB(stacksent, 3, 4, 2)
 
 # or NIR on top of blue band
-im.plotRGB(sentstack, r=3, g=2, b=4)
+
+im.plotRGB(stacksent, 3, 2, 4)
+
+# We can now do a multiframe with these new images
+# Final multiframe
+par(mfrow=c(2,2))
+im.plotRGB(stacksent, 3, 2, 1 ) # natural oclors
+im.plotRGB(stacksent, 4, 2, 1 ) # nir on red
+im.plotRGB(stacksent, 3, 4, 2 ) # nir on green
+im.plotRGB(stacksent, 3, 2, 4 ) # nir on blue
+
+dev.off()
 
 # Additional:
 # correlations of information
 pairs(stacksent)
-# it's easier to see why IR is not correlated to other bands
-# while b2, b3, b4 bands are well correlated to each other
-# it means that NIR adds more information 
+# It show us that NIR is not correlated to the other bands
+# While blue, green and red are stricly correlated between each other
+# Thi show us why the NIR band add so many informations
