@@ -1,4 +1,4 @@
-#This code is for multivariate analysis of species x plot data in communities
+# This code is for multivariate analysis of species x plot data in communities
 # First we install the package vegan from CRAN  
 
 install.packages("vegan")
@@ -6,7 +6,7 @@ library(vegan)
 
 # Let's load the dune dataset, which contains vegetation data
 
-data(dune) # i obtain the matrix 
+data(dune) # I obtain the matrix 
 
 # To see the structure of the dataset I display the first 6 rows with head()
 head(dune) 
