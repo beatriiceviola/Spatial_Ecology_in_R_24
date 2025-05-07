@@ -1,11 +1,9 @@
 # This code is for multivariate analysis of species x plot data in communities
 # First we install the package vegan from CRAN  
-
 install.packages("vegan")
 library(vegan)
 
 # Let's load the dune dataset, which contains vegetation data
-
 data(dune) # I obtain the matrix 
 
 # To see the structure of the dataset I display the first 6 rows with head()
@@ -30,7 +28,6 @@ decorana(dune)
 multivar <- decorana(dune) 
 # the original set is compressedd to 4 axis 
 # writing decorana(dune) we obtain 4 axes (DCA1,2,3,4) 
-
 dca1 = 3.7004
 
 # each DCA is the length of axis representing the whle dataset
@@ -41,7 +38,6 @@ dca1 = 3.7004
 # 4 axes of lenghts x (amount of range represented by the first axis)
 # calculate the percentage of each axis compared to the all dataset
 # what's the % of the original is represented by the component 1?
-
 dca1 = 3.7004
 dca2 = 3.1166
 dca3 = 1.30055
@@ -72,7 +68,6 @@ perc1 + perc2
 # loss is 29% of the original information but it does worth it 
 
 # the first two axes explain 71% of the variability 
-
 plot(multivar)
 
 # now i can see which species are more correlated 
