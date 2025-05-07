@@ -1,17 +1,20 @@
-# Code to import external data
+#Importing data from external sources
 
+# First let's recall the packages
 library(terra)
 
-# download image from Nasa Earth Observatory, save it in your folder
+# Now download an image from Nasa Earth Observatory, save it in your folder
 
-# set the working directory from which the image is taken 
-setwd("C://Users/anton/OneDrive/Documents/MAGISTRALE/SPATIAL ECOLOGY IN R")
+# Now let's explain to the system in which folder of my PC it has to extract the data that I want to use
+# setwd means "set working directory"
+# The argument of this function, that has to be always between the quotes since we get out of R,
+# is the path of the folder
+setwd("/Users/macbookairair/Downloads/Cartella 1/1.png")
 getwd()
 
-# in terra use function rast() to import data
-
+# In the package terra there is the function rast() that allow us to import data
 scotland <- rast("scotland_outerhebrides_oli_20240918_lrg.jpg")
-plotRGB(scotland, r=1, g=2, b=3)
+plotRGB(scotland, r=1, g=2, b=3) # Let's use the natural colors
 
 # alternative function to plot for library terra
 plot(scotland)
