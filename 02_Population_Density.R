@@ -6,28 +6,23 @@
 
 # The first package that we're going to install is spatstat
 # Spatstat is used for point pattern analysis
-
 install.packages("spatstat") 
 
 # To verify that the package has been installed we use the function "library()"
 # To use this function the quotes won't be needed since the package has already been installed
-
 library(spatstat)
 
 # Now we will use the dataset bei, which is inside spatstat
 # The dataset bei represent spatial point pattern data
-
 bei
 
 # Let's plot this dataset
 # This plot is generated to visualize the spatial distribution of points
 # All the points rapresent monitored trees in the Amazon rainforest
-
 plot(bei) 
 
 # Let's change the graphic since the points are too big
 # To do so, as we've already seen, we use the functions "pch" and "cex"
-
 plot(bei, pch=19, cex=0.2)
 
 # Now we can explore additional dataset
@@ -47,9 +42,9 @@ plot(elevation)
 # Also instead of using the symbol $ I can also use [[1]] to select elements
 # In this way R will select the first element of the dataset, which is elevation in this case
 # We assign it to a new object and we plot it
-
 elevation2 <- bei.extra[[1]]
 plot(elevation2)  # [[]] is more powerful because I dont'have to remember the name of the element I need
+
 
 # Now we want to create a density map, but how do we let R calculting the plots as a continuous image?
 # By considering each group of dots as a single unit,
@@ -76,11 +71,9 @@ points(bei, col="green")
 # To do so we can use the "par()mfrow=" function
 # In it's argument, adding the concatenate function "c()" we will firstly put the number of the rows
 # and secondly the number of the columns that we ant
-
 par(mfrow=c(1,2)) # 1 and 2 are elements of the same arrow, so we have one row and two columns
 
 # Now we tell the software what we want to plot
-
 plot(elevation2)
 plot(densitymap)
 
@@ -88,7 +81,6 @@ plot(densitymap)
  par(mfrow=c(2,1))
 
 # When I want to delete a plot I can use the "dev.off()" function
-
 dev.off()
 
 # To change the colors I can use the "colorRampPalette()" function
@@ -96,11 +88,9 @@ dev.off()
 # An then I specify a number that states the gradient
 # Since R is a sensitive case software it's important to write this function with the R and the P in capital letters
 # And again we're using the concatenate function since we have more elements in the argument
-
 cl <- colorRampPalette(c("red", "orange", "yellow")) (3)
 
 # Now we plot the graphic with the new colors
-
 plot(densitymap, col=cl)
 
 # To increase the smoothness of the plot I can add more gradient
@@ -110,7 +100,6 @@ cl <- colorRampPalette(c("red", "orange", "yellow")) (100)
 # R colors cheat-sheet by Dr. Ying Wei: http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
 
 # Exercise: change the color ramp palette using different colors 
-
 col <- colorRampPalette(c("azure3", "darkorchid", "mediumaquamarine", "salmon"))(100)
 plot(densitymap, col=cln)
 
