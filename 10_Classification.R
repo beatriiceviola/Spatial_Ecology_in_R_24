@@ -10,7 +10,6 @@
 # When we've finished with the classification we will calculate how many pixels belong to one class
 # and how many to the other classes
  
-
 # Let's import the required libraries
 library(terra) 
 library(imageRy)
@@ -71,7 +70,6 @@ perc1992 = prop1992 * 100
 perc1992
 # class 1 = human related areas + water = 17% cover
 # class 2 = forest = 83% cover
-
 
 # Let's do the same thing for 2006:
 # Frequencies
