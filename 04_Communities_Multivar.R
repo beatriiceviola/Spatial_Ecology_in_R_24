@@ -1,4 +1,4 @@
-# This code is for multivariate analysis of how species are related in space and time
+# This code is for multivariate analysis of species x plot data in communities
 # First we install the package vegan from CRAN  
 install.packages("vegan")
 library(vegan)
