@@ -1,72 +1,66 @@
-# Relation among species in time
-# code to estimate the temporal overlap between species
-
+# Let's investigate the relaation among sepcies in time
+# Code to estimate temporal activity patterns of different species and their overlap 
+# First of all we're gonna need the package "overlap" from CRAN
 install.packages("overlap")
+library(overlap) #Load required library
 
-library(overlap)
-
-# use some data called kerinci
+# Let's load the dataset "kerinci" of this package from Kerinci-Sablat National Park in Sumatra, Indonesia
 data(kerinci)
 
-# exercise: show first 6 rows of kerinci and check the name of columns
-head(kerinci)
-names(kerinci)
+# Displays the first six rows of the dataset and check the names of the columns
+head(kerinci) # Already with "head()" it shows the name of the columns but to be sure I can use "names()"
+names(kerinci) # This just show me the names and nothiing else
 
-# to see the dataset per se
-kerinci
-
-# summary gives an idea about the statistics of field
+# Summarize the dataset to understand its contents and to have an idea about the statistics of field
 summary(kerinci)
-# gives same individual in different times records, min and max
 
-# time is linear dimension but we want the circular dimension as radiance multiplying 2pigreco
-
+# Now it's important to note that the unit of time in this dataset is the day where values go from 0 to 1 
+# Time is linear dimension but we want circular dimension since overlap uses radians
+# To convert it we will just need to multiplly our time for  pi
 kerinci$Time * 2 * pi 
 
-# suggested to create a new column and link it to the group kerinci
-
+# It's probably better to create a new column and link it to the group kerinci
 kerinci$Timecirc <- kerinci$Time * 2 * pi
 
-# to check the new column
+# To check that the new column appeared we use head again
 head(kerinci)
 
-# take a new obj tiger and we assign to that only the new dataset with just data for tiger
-
+# Now let's focus on the first species: tiger
+# to do so we will specify that we are just going to use the species "tiger"
+# by writing kerinci[kerinci$Sps="tiger",]
+# So in this way from the columns of species it will only take the tigers
+# Since == means "equal" while != means "not equal"
+# And then we assign this function to a new object
 tiger <- kerinci[kerinci$Sps=="tiger",]
 
-# the , to end the query
-# query is developed in sql as == (equal) while != (not equal)
-
-# we plot a density plot using time from tiger data
-
-# select only tiger timecirc
+# We proceed by selecting the circular time data just for the tigers
+# and then by plotting the density of tiger activity
+# To do so we use densityPlot() , remember that R is case sensitive and the P is in capital letters
 tigertime <- tiger$Timecirc
-
 densityPlot(tigertime)
 
-# peak at 6am to search for food, the same in the evening searchin for repair for the night 
+# We can see two main peaks in the graphics
+# The first one is at 6am, probably to search for food
+# while the second one is around 6pm to probably search for a repair for the night
 
-# let's do the same for another species and overlap
-
-# Exercise: select in a new obj the data macaque and assign them to a new obj 
-
+# Now we're gonna do the same thing for a different species of the dataset
+# Firstly, like before, we just want to select the species, the macaque this time
 macaque <- kerinci[kerinci$Sps=="macaque",]
 
-# then select the time for the macaque data
+# Then we select the circular time data for the macaques
+# And assigned it to an object
 macaquetime <- macaque$Timecirc
 
+# After we plot the density of the macaques's activity
 densityPlot(macaquetime)
 
-# how 2 sps are related in time 
-# we speak about spatial temporal eco
+# Now we can use overlap to check how the two sepcies are related in time
+# By controlling the activity patterns of tigers and macaques together
+# This, for example, can be useful to see when the predator could potentially hunt their preys like macaques
+# To do so we will plot the overlapping density of tiger and macaque activity together
+overlapPlot(tigertime, macaquetime) # the mainly overlap in activity is between 6am and 6pm
 
-overlapPlot(tigertime, macaquetime)
-
-
-# --------------SQL revise 
-
-macaque <- kerinci[kerinci$Sps=="macaque",]
-nomacaque <- kerinci[kerinci$Sps!="macaque",] 
-
-# to esclude the macaque from the dataset 
+# Note: as we said befor == means equal and != means not equal
+# so, if for example we wanted all the species but the macaques we coul have wrote:
+nomacaque <- kerinci[kerinci$Sps!="macaque",]
 summary(nomacaque)
