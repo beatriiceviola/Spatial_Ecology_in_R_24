@@ -48,7 +48,6 @@ plot(swir_june12)
 title("June 12", line = -6, cex=2) 
 dev.off()
 
-
 #NBR May 4
 diff.may4 = swir_may4[[2]] - swir_may4[[1]] 
 plot(diff.may4, col = viridis(100))
@@ -72,3 +71,122 @@ sum.june12 = swir_june12[[1]] + swir_june12[[2]]
 plot(sum.june12, col = viridis(100))
 NBR_june12 = (diff.june12) / (sum.june12) 
 plot(NBR_june12, col = viridis(100)) 
+
+#Stacksent
+stack <- c(NBR_may4, NBR_may19, NBR_june12)
+names(stack) <- c("NBR May 4th", "NBR May 19th", "NBR June 12th")
+plot(stack, col= inferno(100))
+
+fire <- colorRampPalette(c("darkolivegreen3", "darkolivegreen", "darkorange1", "darkorange4"))(100)
+dNBR = (NBR_may4) - (NBR_june12)
+plot(dNBR, col = fire, main="dNBR")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
