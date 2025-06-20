@@ -48,7 +48,11 @@ plot(swir_june12)
 title("June 12", line = -6, cex=2) 
 dev.off()
 
+fire <- colorRampPalette(c("darkolivegreen3", "darkolivegreen", "darkorange1", "darkorange4"))(100)
+
 #NBR May 4
+plot(swir_may4[[2]], col= fire)
+plot(swir_may4[[1]], col= fire)
 diff.may4 = swir_may4[[2]] - swir_may4[[1]] 
 plot(diff.may4, col = viridis(100))
 sum.may4 = swir_may4[[1]] + swir_may4[[2]]
@@ -57,6 +61,8 @@ NBR_may4 = (diff.may4) / (sum.may4)
 plot(NBR_may4, col = viridis(100)) 
 
 #NBR May 19
+plot(swir_may19[[2]], col= fire)
+plot(swir_may19[[1]], col= fire)
 diff.may19 = swir_may19[[2]] - swir_may19[[1]] 
 plot(diff.may19, col = viridis(100))
 sum.may19 = swir_may19[[1]] + swir_may19[[2]]
@@ -65,6 +71,8 @@ NBR_may19 = (diff.may19) / (sum.may19)
 plot(NBR_may19, col = viridis(100)) 
 
 #NBR June 12
+plot(swir_june12[[2]], col= fire)
+plot(swir_june12[[1]], col= fire)
 diff.june12 = swir_june12[[2]] - swir_june12[[1]] 
 plot(diff.june12, col = viridis(100))
 sum.june12 = swir_june12[[1]] + swir_june12[[2]]
@@ -77,14 +85,22 @@ stack <- c(NBR_may4, NBR_may19, NBR_june12)
 names(stack) <- c("NBR May 4th", "NBR May 19th", "NBR June 12th")
 plot(stack, col= inferno(100))
 
-fire <- colorRampPalette(c("darkolivegreen3", "darkolivegreen", "darkorange1", "darkorange4"))(100)
+#delta
 dNBR = (NBR_may4) - (NBR_june12)
 plot(dNBR, col = fire, main="dNBR")
 
 
+class <- im.classify(dNBR, num_clusters = 2
+plot(class, col= fire)
 
-
-
+#NBR+
+par(mfrow = c(1,3))
+difNBR2_may19= (swir_may19[[2]] - swir_may19[[1]] - tc_may19[[2]] - tc_may19[[3]])
+plot(difNBR2_may19, col=inferno(100))
+sumNBR2_may19= (swir_may19[[2]] + swir_may19[[1]] + tc_may19[[2]] + tc_may19[[3]])
+plot(sumNBR2_may19, col=inferno(100))
+NBR2_may19= (difNBR2_may19) / (sumNBR2_may19)
+plot(NBR2_may19, col=inferno(100))
 
 
 
