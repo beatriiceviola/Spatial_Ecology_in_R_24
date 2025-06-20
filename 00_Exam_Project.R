@@ -86,14 +86,23 @@ names(stack) <- c("NBR May 4th", "NBR May 19th", "NBR June 12th")
 plot(stack, col= inferno(100))
 
 #delta
-dNBR = (NBR_may4) - (NBR_june12)
+dNBR = (NBR_may4) - (NBR_may19)
 plot(dNBR, col = fire, main="dNBR")
 
 
-class <- im.classify(dNBR, num_clusters = 2
-plot(class, col= fire)
+class <- im.classify(swir_may19, num_clusters = 4)
+plot(class, col= c("blue","darkolive","darkorange2","darkolive2"))
 
-#NBR+
+#NBR+ May 4
+par(mfrow = c(1,3))
+difNBR2_may4= (swir_may4[[2]] - swir_may4[[1]] - tc_may4[[2]] - tc_may4[[3]])
+plot(difNBR2_may4, col=inferno(100))
+sumNBR2_may4= (swir_may4[[2]] + swir_may4[[1]] + tc_may4[[2]] + tc_may4[[3]])
+plot(sumNBR2_may4, col=inferno(100))
+NBR2_may4= (difNBR2_may4) / (sumNBR2_may4)
+plot(NBR2_may4, col=inferno(100))
+
+#NBR+ May 19
 par(mfrow = c(1,3))
 difNBR2_may19= (swir_may19[[2]] - swir_may19[[1]] - tc_may19[[2]] - tc_may19[[3]])
 plot(difNBR2_may19, col=inferno(100))
@@ -103,10 +112,11 @@ NBR2_may19= (difNBR2_may19) / (sumNBR2_may19)
 plot(NBR2_may19, col=inferno(100))
 
 
+#Deta
+dNBR2 = (NBR2_may4) - (NBR2_may19)
+plot(dNBR2, col = fire, main="dNBR+")
 
-
-
-
+class2 <- im.classify(dNBR2, num_clusters = 2)
 
 
 
