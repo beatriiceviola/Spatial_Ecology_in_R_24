@@ -132,11 +132,11 @@ tot
 prop = freq/tot
 prop
       
-> #Percentuale 
-> #Healthy vegetation = 88.7%
-> #Burned areas = 11.3%
-> perc = prop*100
-> perc
+#Percentuale 
+#Healthy vegetation = 88.7%
+#Burned areas = 11.3%
+perc = prop*100
+perc
 
 #classificazione delta 2
 class2 <- im.classify(dNBR2, num_clusters = 2)
