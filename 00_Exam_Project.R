@@ -158,23 +158,61 @@ perc2 = prop2*100
 perc2
 
 
+suppressWarnings({
+fc2025 <- rast("fc2025.jpeg")
+})
+suppressWarnings({
+fc2018 <- rast("fc2018.jpeg")
+})
 
+#DVI
+dvi2018 <- (fc2018[[1]]-fc2018[[2]])
+plot(dvi2018, col=fire)
+#2023
+dvi2025 <- (fc2025[[1]]-fc2025[[2]])
+plot(dvi2025, col=fire)
 
+#NDVI
+cold=
+par(mfrow= c(1,2))
+ndvi2018 = dvi2018/(fc2018[[1]]+fc2018[[2]])
+ndvi2025 = dvi2025/(fc2025[[1]]+fc2025[[2]])
+plot(ndvi2018, col= cold)
+plot(ndvi2025, col= cold)
 
+freq18 <- freq(class2018)
+freq18
+#Calcoliamo il totale dei pixel
+tot18 <- ncell (class2018)
+tot18
 
+#Proporzione
+prop18 = freq18/tot18
+prop18
+        
+#Percentuale 
+#Foresta = 68.9%
+#Suolo nudo= 27.4%
+# Acqua 3.7%
+perc18 = prop18*100
+perc18
 
+freq25 <- freq(class2025)
+freq25
+#Calcoliamo il totale dei pixel
+tot25 <- ncell (class2025)
+tot25
 
-
-
-
-
-
-
-
-
-
-
-
+#Proporzione
+prop25 = freq25/tot25
+prop25
+        
+#Percentuale 
+#Foresta = 55.5%
+#Suolo nudo= 40.8%
+# Acqua 3.7%
+perc25 = prop25*100
+perc25
 
 
 
