@@ -89,7 +89,7 @@ plot(stack, col= inferno(100))
 dNBR = (NBR_may4) - (NBR_may19)
 plot(dNBR, col = fire, main="dNBR")
 
-
+# classificazione su tutta l'immagine forse da togliere
 class <- im.classify(swir_may19, num_clusters = 4)
 plot(class, col= c("blue","darkolive","darkorange2","darkolive2"))
 
@@ -116,12 +116,46 @@ plot(NBR2_may19, col=inferno(100))
 dNBR2 = (NBR2_may4) - (NBR2_may19)
 plot(dNBR2, col = fire, main="dNBR+")
 
+#classificazione delta 1
+class <- im.classify(dNBR, num_clusters = 2)
+class.names <- c("healthy vegetation", "burned areas")
+plot(class, main= "Damaged area's classificatiobn", type="classes", levels= class.names, col= fire)
+
+freq <- freq(class)
+freq
+
+#Calcoliamo il totale dei pixel
+tot <- ncell (class)
+tot
+
+#Proporzione
+prop = freq/tot
+prop
+      
+> #Percentuale 
+> #Healthy vegetation = 88.7%
+> #Burned areas = 11.3%
+> perc = prop*100
+> perc
+
+#classificazione delta 2
 class2 <- im.classify(dNBR2, num_clusters = 2)
+class.names <- c("healthy vegetation", "burned areas")
+plot(class2, main= "Damaged area's classificatiobn", type="classes", levels= class.names, col= fire)
 
-
-
-
-
+freq2 <- freq(class2)
+freq2
+#Calcoliamo il totale dei pixel
+tot2 <- ncell (class2)
+tot2
+#Proporzione
+prop2 = freq2/tot2
+prop2
+#Percentuale 
+#Healthy vegetation = 85.7%
+#Burned areas= 14.3%
+perc2 = prop2*100
+perc2
 
 
 
