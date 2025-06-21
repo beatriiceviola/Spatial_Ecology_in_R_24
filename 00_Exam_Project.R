@@ -91,7 +91,7 @@ plot(dNBR, col = fire, main="dNBR")
 
 # classificazione su tutta l'immagine forse da togliere
 class <- im.classify(swir_may19, num_clusters = 4)
-plot(class, col= c("blue","darkolive","darkorange2","darkolive2"))
+plot(class, col= c("blue","darkolivegreen","darkorange2","darkolivegreen2"))
 
 #NBR+ May 4
 par(mfrow = c(1,3))
@@ -111,8 +111,7 @@ plot(sumNBR2_may19, col=inferno(100))
 NBR2_may19= (difNBR2_may19) / (sumNBR2_may19)
 plot(NBR2_may19, col=inferno(100))
 
-
-#Deta
+#Delta
 dNBR2 = (NBR2_may4) - (NBR2_may19)
 plot(dNBR2, col = fire, main="dNBR+")
 
@@ -157,7 +156,6 @@ prop2
 perc2 = prop2*100
 perc2
 
-
 suppressWarnings({
 fc2025 <- rast("fc2025.jpeg")
 })
@@ -173,13 +171,14 @@ dvi2025 <- (fc2025[[1]]-fc2025[[2]])
 plot(dvi2025, col=fire)
 
 #NDVI
-cold=
+cold= colorRampPalette(c("tomato4", "lightpink", "olivedrab")) (100)
 par(mfrow= c(1,2))
 ndvi2018 = dvi2018/(fc2018[[1]]+fc2018[[2]])
 ndvi2025 = dvi2025/(fc2025[[1]]+fc2025[[2]])
 plot(ndvi2018, col= cold)
 plot(ndvi2025, col= cold)
 
+class2018 <- im.classify(ndvi2018, num_clusters = 3)
 freq18 <- freq(class2018)
 freq18
 #Calcoliamo il totale dei pixel
@@ -197,6 +196,7 @@ prop18
 perc18 = prop18*100
 perc18
 
+class2025 <- im.classify(ndvi2025, num_clusters = 3)
 freq25 <- freq(class2025)
 freq25
 #Calcoliamo il totale dei pixel
