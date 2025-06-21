@@ -157,62 +157,62 @@ perc2 = prop2*100
 perc2
 
 suppressWarnings({
-fc2025 <- rast("fc2025.jpeg")
+fc2024 <- rast("fc2024.jpeg")
 })
 suppressWarnings({
-fc2018 <- rast("fc2018.jpeg")
+fc2017 <- rast("fc2017.jpeg")
 })
 
 #DVI
-dvi2018 <- (fc2018[[1]]-fc2018[[2]])
-plot(dvi2018, col=fire)
+dvi2017 <- (fc2017[[1]]-fc2017[[2]])
+plot(dvi2017, col=fire)
 #2023
-dvi2025 <- (fc2025[[1]]-fc2025[[2]])
-plot(dvi2025, col=fire)
+dvi2024 <- (fc2024[[1]]-fc2024[[2]])
+plot(dvi2024, col=fire)
 
 #NDVI
 cold= colorRampPalette(c("tomato4", "lightpink", "olivedrab")) (100)
 par(mfrow= c(1,2))
-ndvi2018 = dvi2018/(fc2018[[1]]+fc2018[[2]])
-ndvi2025 = dvi2025/(fc2025[[1]]+fc2025[[2]])
-plot(ndvi2018, col= cold)
-plot(ndvi2025, col= cold)
+ndvi2017 = dvi2017/(fc2017[[1]]+fc2017[[2]])
+ndvi2024 = dvi2024/(fc2024[[1]]+fc2024[[2]])
+plot(ndvi2017, col= cold)
+plot(ndvi2024, col= cold)
 
-class2018 <- im.classify(ndvi2018, num_clusters = 3)
-freq18 <- freq(class2018)
-freq18
+class2017 <- im.classify(ndvi2017, num_clusters = 3)
+freq17 <- freq(class2017)
+freq17
 #Calcoliamo il totale dei pixel
-tot18 <- ncell (class2018)
-tot18
+tot17 <- ncell (class2017)
+tot17
 
 #Proporzione
-prop18 = freq18/tot18
-prop18
+prop17 = freq17/tot17
+prop17
         
 #Percentuale 
-#Foresta = 68.9%
-#Suolo nudo= 27.4%
-# Acqua 3.7%
-perc18 = prop18*100
-perc18
+#Foresta = 60.5%
+#Suolo nudo= 36.1%
+# Acqua 3.1%
+perc17 = prop17*100
+perc17
 
-class2025 <- im.classify(ndvi2025, num_clusters = 3)
-freq25 <- freq(class2025)
-freq25
+class2024 <- im.classify(ndvi2024, num_clusters = 3)
+freq24 <- freq(class2024)
+freq24
 #Calcoliamo il totale dei pixel
-tot25 <- ncell (class2025)
-tot25
+tot24 <- ncell (class2024)
+tot24
 
 #Proporzione
-prop25 = freq25/tot25
-prop25
+prop24 = freq24/tot24
+prop24
         
 #Percentuale 
 #Foresta = 55.5%
 #Suolo nudo= 40.8%
 # Acqua 3.7%
-perc25 = prop25*100
-perc25
+perc24 = prop24*100
+perc24
 
 
 
