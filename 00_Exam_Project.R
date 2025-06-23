@@ -27,19 +27,14 @@ tc_may4 <- rast("begmay.jpeg")
 suppressWarnings({
 tc_may19 <- rast("endmay.jpeg")
 })
-suppressWarnings({
-tc_june12 <- rast("june.jpeg")
-})
 
 # Then I wanted to visualize these images all together so, thanks to the par(mfrow=) function
 # I arranged them in one row and three columns
-par(mfrow=c(1,3))
+par(mfrow=c(1,2))
 plot(tc_may4)
 title("May 4", line = -6, cex=2) 
 plot(tc_may19)
-title("May 19", line = -6, cex=2) 
-plot(tc_june12)
-title("June 12", line = -6, cex=2) 
+title("May 19", line = -6, cex=2)  
 dev.off() 
 
 # Loading the images
@@ -53,18 +48,13 @@ swir_may4 <- rast("begmay_swir.jpeg")
 suppressWarnings({
 swir_may19 <- rast("endmay_swir.jpeg")
 })
-suppressWarnings({
-swir_june12 <- rast("june_swir.jpeg")
-})
 
 # And then again put them together to visualize them alligned
-par(mfrow=c(1,3))
+par(mfrow=c(1,2))
 plot(swir_may4)
 title("May 4", line = -6, cex=2) 
 plot(swir_may19)
 title("May 19", line = -6, cex=2) 
-plot(swir_june12)
-title("June 12", line = -6, cex=2) 
 dev.off()
 
 #Then I created a color palette where the greens rapresent the vegetation and the oranges rapresent the area of fire
@@ -92,16 +82,6 @@ diff.may19 = swir_may19[[2]] - swir_may19[[1]]
 sum.may19 = swir_may19[[1]] + swir_may19[[2]]
 NBR_may19 = (diff.may19) / (sum.may19) 
 plot(NBR_may19, col = inferno(100)) 
-
-#NBR June 12 ????????????
-plot(swir_june12[[2]], col= fire)
-plot(swir_june12[[1]], col= fire)
-diff.june12 = swir_june12[[2]] - swir_june12[[1]] 
-plot(diff.june12, col = viridis(100))
-sum.june12 = swir_june12[[1]] + swir_june12[[2]]
-plot(sum.june12, col = viridis(100))
-NBR_june12 = (diff.june12) / (sum.june12) 
-plot(NBR_june12, col = viridis(100)) 
 
 # Now I create a stacksent, which is an array, and similarly to the par(mfrow=) function
 # it alows me to visualize the images together but always with 2 columns and 2 rows
