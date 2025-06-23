@@ -118,15 +118,15 @@ plot(dNBR2, col = inferno(100), main="dNBR+") # And then I plotted it
 
 # Now let's classify these results thanks to the function im.classify from imageRy
 # NBR Delta Claffication
-class <- im.classify(dNBR, num_clusters = 2)
+classnbr <- im.classify(dNBR, num_clusters = 2)
 class.names <- c("Healthy vegetation", "Burned areas")
-plot(class, main= "Damaged area's classification", type="classes", levels= class.names, col= fire)
+plot(classnbr, main= "Damaged area's classification", type="classes", levels= class.names, col= fire)
 
 # To quantify the percentages of healthy vegetation and burned area I first obtained the frequencies:
-freq <- freq(class)
+freq <- freq(classnbr)
 
 # Then calculated the total number of pixels
-tot <- ncell (class)
+tot <- ncell (classnbr)
 
 # Then did a proportion
 prop = freq/tot
@@ -139,16 +139,16 @@ perc
 
 # Now let's do the same thing for the NBR+ delta
 # Starting with classification
-class2 <- im.classify(dNBR2, num_clusters = 2)
+classnbr2 <- im.classify(dNBR2, num_clusters = 2)
 class.names <- c("Healthy vegetation", "Burned areas")
-plot(class2, main= "Damaged area's classification", type="classes", levels= class.names, col= fire)
+plot(classnbr2, main= "Damaged area's classification", type="classes", levels= class.names, col= fire)
 
 # Quantifiyng the pixels
 # Frequency:
-freq2 <- freq(class2)
+freq2 <- freq(classnbr2)
 
 # Total number
-tot2 <- ncell (class2)
+tot2 <- ncell (classnbr2)
 
 #Proportion
 prop2 = freq2/tot2
@@ -161,8 +161,8 @@ perc2
 
 # Let's visualize them together
 par(mfrow=c(1,2))
-plot(class, main= "Damaged area's classification", type="classes", levels= class.names, col= fire)
-plot(class2, main= "Damaged area's classificatiobn", type="classes", levels= class.names, col= fire)
+plot(classnbr, main= "Damaged area's classification", type="classes", levels= class.names, col= fire)
+plot(classnbr2, main= "Damaged area's classificatiobn", type="classes", levels= class.names, col= fire)
 
 # As we can see from the two images obtained, with the first classification the water bodies were considered
 # as part of the burned areas, while with the second one as part of the healthy vegetation.
@@ -211,5 +211,50 @@ prop24 = freq24/tot24
 perc24 = prop24*100
 perc24
 
-# From these results we can clarluy see a difference in the vegetation's state during time,
+# From these results we can clearly see a difference in the vegetation's state during time,
 # so this is probably one of the reasons why wildfires are becoming more and more frequent and destructive.
+class <- c("Healthy vegetation","Burned areas") #Prima colonna
+dNBR <- c(89,11) #Seconda
+dNBR2 <- c(86,14) #Terza
+
+tabout <- data.frame(class, dNBR, dNBR2)
+tabout #Visualizziamo il dataframe
+
+#Creiamo ora i grafici con ggplot
+#2017
+ggplot(tabout, aes(x=class, y= dNBR, color=class)) + 
+geom_bar(stat="identity", aes(fill= class), width= 0.7)+
+ylim(c(0,100)) +
+ggtitle("Area d'indagine nel 2017") + xlab("Classi") + ylab("Valori percentuali")+
+theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
+
+#2023
+ggplot(tabout, aes(x=class, y=dNBR2, color=class)) + 
+geom_bar(stat="identity",aes(fill= class), width= 0.7)+        
+ylim(c(0,100))+
+ggtitle("Area d'indagine nel 2023") + xlab("Classi") + ylab("Valori percentuali")+
+theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
+
+#Visualizziamo i due grafici insieme con patchwork
+p1 <-ggplot(tabout, aes(x=class, y=dNBR, color=class)) + geom_bar(stat="identity", aes(fill=class), width= 0.7)+ ylim(c(0,100))+ggtitle("Area d'indagine nel 2017") + xlab("Classi") + ylab("Valori percentuali")+
+theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
+p2 <-ggplot(tabout, aes(x=class, y=dNBR2, color=class))+ geom_bar(stat="identity", aes(fill=class),width= 0.7)+ ylim(c(0,100))+ggtitle("Area d'indagine nel 2023") + xlab("Classi") + ylab("Valori percentuali")+
+theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
+p1 + p2
+
+dev.off
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
