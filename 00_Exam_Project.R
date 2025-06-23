@@ -1,23 +1,23 @@
 ## Wildfires in Manitoba, Canada
-# This projects aims to value the area damaged by fire during the month of May in 2025 in the region of Manitoba, Canada.
-# The data were taken from Copernicus Browser 
+# This projects aims to value the area damaged by fire during the month of May 2025 in the region of Manitoba, Canada.
+# The data were taken from Copernicus Browser and later manipulated
 
 # First let's import the libraries that we will need:
 library(terra) # For Spatial Analysis
 library(imageRy) # To manipulate and share raster images in R
-library(viridis) # For color palettes that are visible also for color blin people
+library(viridis) # For color palettes that are visible also for color blind people
 library(ggplot2) # To create graphics
 library(patchwork) # For coupling graphics
 
-# Let's specify how I installed the package "imageRy"
+# Let's specify how I installed the package "imageRy" 
 devtools:: install_github("ducciorocchini/imageRy")
 
 # Then I set the working directory on R, this is the folder from which R will take all the datas
-setwd("/Users/macbookairair/Downloads/Cartella")
+#setwd("/Users/macbookairair/Downloads/Cartella")?????????????????????????????????????????????????????????????????????????
 
 # Loading the images
 # The first images were taken by Sentinel-2 and are in true color
-# All the bands were already decided by decided and are disposed in this way:
+# All the bands were already decided and are disposed in this way:
 # First band: R = red
 # Second band: G = green
 # Third band: B = blue
@@ -40,11 +40,11 @@ plot(tc_may19)
 title("May 19", line = -6, cex=2) 
 plot(tc_june12)
 title("June 12", line = -6, cex=2) 
-dev.off()
+dev.off() 
 
 # Loading the images
 # Other important datasets to import were the "Swir" images
-# First band: R = SWIR
+# First band: R = SWIR 
 # Second Band: G = NIR
 # Third Band: B = red
 suppressWarnings({
@@ -67,29 +67,33 @@ plot(swir_june12)
 title("June 12", line = -6, cex=2) 
 dev.off()
 
+#Then I created a color palette where the greens rapresent the vegetation and the oranges rapresent the area of fire
+# The number 100, instead, rapresent the number of shades that I want for my palette
 fire <- colorRampPalette(c("darkolivegreen3", "darkolivegreen", "darkorange1", "darkorange4"))(100)
 
+# Now to have an idea about the damages brought by these wildfires I used the index NBR (Normalized Burn Ratio)
+# This index, similarly to the NDVI, is normalized and is given by the band of NIR minus the band of SWIR
+# all divided by the addiction of the same two bands.
+# SWIR stand for Short-wave infrared and, contrary to NIR, shows an high reflectance of burnt areas and low
+# reflectance of healthy vegetation.
+# So an high NBR value indicates healthy vegetation, a low one indicates recently burned areas.
 #NBR May 4
-plot(swir_may4[[2]], col= fire)
-plot(swir_may4[[1]], col= fire)
+plot(swir_may4[[2]], col= fire) # Band of NIR
+plot(swir_may4[[1]], col= fire) # Band of SWIR
 diff.may4 = swir_may4[[2]] - swir_may4[[1]] 
-plot(diff.may4, col = viridis(100))
 sum.may4 = swir_may4[[1]] + swir_may4[[2]]
-plot(sum.may4, col = viridis(100))
 NBR_may4 = (diff.may4) / (sum.may4) 
-plot(NBR_may4, col = viridis(100)) 
+plot(NBR_may4, col = inferno(100))  # Inferno is a color Palette taken from the viridis package
 
 #NBR May 19
-plot(swir_may19[[2]], col= fire)
-plot(swir_may19[[1]], col= fire)
+plot(swir_may19[[2]], col= fire) # Band of NIR
+plot(swir_may19[[1]], col= fire) # Band of SWIR
 diff.may19 = swir_may19[[2]] - swir_may19[[1]] 
-plot(diff.may19, col = viridis(100))
 sum.may19 = swir_may19[[1]] + swir_may19[[2]]
-plot(sum.may19, col = viridis(100))
 NBR_may19 = (diff.may19) / (sum.may19) 
-plot(NBR_may19, col = viridis(100)) 
+plot(NBR_may19, col = inferno(100)) 
 
-#NBR June 12
+#NBR June 12 ????????????
 plot(swir_june12[[2]], col= fire)
 plot(swir_june12[[1]], col= fire)
 diff.june12 = swir_june12[[2]] - swir_june12[[1]] 
@@ -99,81 +103,86 @@ plot(sum.june12, col = viridis(100))
 NBR_june12 = (diff.june12) / (sum.june12) 
 plot(NBR_june12, col = viridis(100)) 
 
-#Stacksent
+# Now I create a stacksent, which is an array, and similarly to the par(mfrow=) function
+# it alows me to visualize the images together but always with 2 columns and 2 rows
+# It's faster than the par and used to overlap different bands to create a satellite image.
 stack <- c(NBR_may4, NBR_may19, NBR_june12)
 names(stack) <- c("NBR May 4th", "NBR May 19th", "NBR June 12th")
 plot(stack, col= inferno(100))
 
-#delta
+# Let's now calculate the delta NBR, so the difference between the pre-fire and the post-fire
+# used to estimate burn severity.
+# Our burned area has values that goes from 0.5 to 1.5 which indicates low severity
 dNBR = (NBR_may4) - (NBR_may19)
-plot(dNBR, col = fire, main="dNBR")
+plot(dNBR, col = inferno(100), main="dNBR")
 
-# classificazione su tutta l'immagine forse da togliere
-class <- im.classify(swir_may19, num_clusters = 4)
-plot(class, col= c("blue","darkolivegreen","darkorange2","darkolivegreen2"))
+# Since in these images there are some water bodies, I decided to optimize the results aand use another index
+# which is the NBR plus (NBR+), that uses also the green and blue band, giving us
+# back a less uncertain outcome
 
 #NBR+ May 4
-par(mfrow = c(1,3))
 difNBR2_may4= (swir_may4[[2]] - swir_may4[[1]] - tc_may4[[2]] - tc_may4[[3]])
-plot(difNBR2_may4, col=inferno(100))
 sumNBR2_may4= (swir_may4[[2]] + swir_may4[[1]] + tc_may4[[2]] + tc_may4[[3]])
-plot(sumNBR2_may4, col=inferno(100))
 NBR2_may4= (difNBR2_may4) / (sumNBR2_may4)
 plot(NBR2_may4, col=inferno(100))
 
 #NBR+ May 19
-par(mfrow = c(1,3))
 difNBR2_may19= (swir_may19[[2]] - swir_may19[[1]] - tc_may19[[2]] - tc_may19[[3]])
-plot(difNBR2_may19, col=inferno(100))
 sumNBR2_may19= (swir_may19[[2]] + swir_may19[[1]] + tc_may19[[2]] + tc_may19[[3]])
-plot(sumNBR2_may19, col=inferno(100))
 NBR2_may19= (difNBR2_may19) / (sumNBR2_may19)
 plot(NBR2_may19, col=inferno(100))
 
-#Delta
+# Once again I calculated the delta
 dNBR2 = (NBR2_may4) - (NBR2_may19)
-plot(dNBR2, col = fire, main="dNBR+")
+plot(dNBR2, col = inferno(100), main="dNBR+") # And then I plotted it
 
-#classificazione delta 1
+# Now let's classify these results thanks to the function im.classify from imageRy
+# NBR Delta Claffication
 class <- im.classify(dNBR, num_clusters = 2)
-class.names <- c("healthy vegetation", "burned areas")
-plot(class, main= "Damaged area's classificatiobn", type="classes", levels= class.names, col= fire)
+class.names <- c("Healthy vegetation", "Burned areas")
+plot(class, main= "Damaged area's classification", type="classes", levels= class.names, col= fire)
 
+# To quantify the percentages of healthy vegetation and burned area I first obtained the frequencies:
 freq <- freq(class)
-freq
 
-#Calcoliamo il totale dei pixel
+# Then calculated the total number of pixels
 tot <- ncell (class)
-tot
 
-#Proporzione
+# Then did a proportion
 prop = freq/tot
-prop
       
-#Percentuale 
+# To finally obtain the percentages
 #Healthy vegetation = 88.7%
 #Burned areas = 11.3%
 perc = prop*100
 perc
 
-#classificazione delta 2
+# Now let's do the same thing for the NBR+ delta
+# Starting with classification
 class2 <- im.classify(dNBR2, num_clusters = 2)
-class.names <- c("healthy vegetation", "burned areas")
+class.names <- c("Healthy vegetation", "Burned areas")
 plot(class2, main= "Damaged area's classificatiobn", type="classes", levels= class.names, col= fire)
 
+# Quantifiyng the pixels
+# Frequency:
 freq2 <- freq(class2)
-freq2
-#Calcoliamo il totale dei pixel
+
+# Total number
 tot2 <- ncell (class2)
-tot2
-#Proporzione
+
+#Proportion
 prop2 = freq2/tot2
-prop2
-#Percentuale 
+
+#Percentages
 #Healthy vegetation = 85.7%
 #Burned areas= 14.3%
 perc2 = prop2*100
 perc2
+
+# As we can see from the two images obtained, with the first classification the water bodies were considered
+# as part of the burned areas, while with the second one as part of the healthy vegetation.
+# Since our interest is to have a better idea of the damages of fire, the second classification is bettter
+# because it gives me back the correct amount of pixels for the fire zones.
 
 suppressWarnings({
 fc2017 <- rast("fc2017.jpeg")
