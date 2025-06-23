@@ -203,5 +203,5 @@ prop24 = freq24/tot24
 perc24 = prop24*100
 perc24
 
-# From these results we can clarluy see a difference in the vegetation's state during time, so this is probably one of the resons
-# why wildfires are becoming more and more frequent and destruptive.
+# From these results we can clarluy see a difference in the vegetation's state during time,
+# so this is probably one of the reasons why wildfires are becoming more and more frequent and destructive.
