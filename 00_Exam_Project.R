@@ -141,7 +141,7 @@ perc
 # Starting with classification
 class2 <- im.classify(dNBR2, num_clusters = 2)
 class.names <- c("Healthy vegetation", "Burned areas")
-plot(class2, main= "Damaged area's classificatiobn", type="classes", levels= class.names, col= fire)
+plot(class2, main= "Damaged area's classification", type="classes", levels= class.names, col= fire)
 
 # Quantifiyng the pixels
 # Frequency:
@@ -159,6 +159,11 @@ prop2 = freq2/tot2
 perc2 = prop2*100
 perc2
 
+# Let's visualize them together
+par(mfrow=c(1,2))
+plot(class, main= "Damaged area's classification", type="classes", levels= class.names, col= fire)
+plot(class2, main= "Damaged area's classificatiobn", type="classes", levels= class.names, col= fire)
+
 # As we can see from the two images obtained, with the first classification the water bodies were considered
 # as part of the burned areas, while with the second one as part of the healthy vegetation.
 # Since our interest is to have a better idea of the damages of fire, the second classification is bettter
@@ -174,10 +179,13 @@ suppressWarnings({
 ndvi2024 <- rast("ndvi2024.jpeg")
 })
 
+# Let's classify them
+# June 2017
 class2017 <- im.classify(ndvi2017, num_clusters=3)
 class.names <- c("Damaged vegetation", "Healthy vegetation", "Water Bodies")
 plot(class2017, main= "Classification 2017", type="classes", levels=class.names, col= c("darkkhaki","darkolivegreen","darkblue"))
 
+# June 2024
 class2024 <- im.classify(ndvi2024, num_clusters=3)
 class.names <- c("Damaged vegetation", "Healthy vegetation", "Water Bodies")
 plot(class2024, main= "Classification 2024", type="classes", levels=class.names, col= c("darkkhaki","darkolivegreen","darkblue"))
