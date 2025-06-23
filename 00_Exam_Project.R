@@ -184,22 +184,26 @@ perc2
 # Since our interest is to have a better idea of the damages of fire, the second classification is bettter
 # because it gives me back the correct amount of pixels for the fire zones.
 
+# Always from Copernicus Browser I imported the NDVI images
+# based on (B8-B4)/(B8+B4). This index is used to quantify the state of vegetation.
+# I imported images from June of 2017 and 2024 to verify if the vegetation went under any differences
 suppressWarnings({
-fc2017 <- rast("fc2017.jpeg")
+ndvi2017 <- rast("ndvi2017.jpeg")
 })
 suppressWarnings({
-fc2024 <- rast("fc2024.jpeg")
+ndvi2024 <- rast("ndvi2024.jpeg")
 })
 
-class2017 <- im.classify(fc2017, num_clusters=3)
+class2017 <- im.classify(ndvi2017, num_clusters=3)
 class.names <- c("Damaged vegetation", "Healthy vegetation", "Water Bodies")
 plot(class2017, main= "Classification 2017", type="classes", levels=class.names, col= c("darkkhaki","darkolivegreen","darkblue"))
 
-class2024 <- im.classify(fc2024, num_clusters=3)
+class2024 <- im.classify(ndvi2024, num_clusters=3)
 class.names <- c("Damaged vegetation", "Healthy vegetation", "Water Bodies")
 plot(class2024, main= "Classification 2024", type="classes", levels=class.names, col= c("darkkhaki","darkolivegreen","darkblue"))
 
-#Percentages 2017: 
+# Pixels quantification
+# Percentages 2017: 
 # Damaged vegetation = 4.9%
 # Healthy vegetation = 89.5%
 # Water bodies = 5.6%
@@ -209,7 +213,7 @@ prop17 = freq17/tot17
 perc17 = prop17*100
 perc17
 
-#Percentages 2024: 
+# Percentages 2024: 
 # Damaged vegetation = 15.5%
 # Healthy vegetation = 79.1%
 # Water bodies = 5.4%
@@ -218,3 +222,6 @@ tot24 <- ncell (class2024)
 prop24 = freq24/tot24
 perc24 = prop24*100
 perc24
+
+# From these results we can clarluy see a difference in the vegetation's state during time, so this is probably one of the resons
+# why wildfires are becoming more and more frequent and destruptive.
