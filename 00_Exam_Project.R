@@ -168,6 +168,7 @@ plot(classnbr2, main= "Damaged area's classificatiobn", type="classes", levels= 
 # as part of the burned areas, while with the second one as part of the healthy vegetation.
 # Since our interest is to have a better idea of the damages of fire, the second classification is bettter
 # because it gives me back the correct amount of pixels for the fire zones.
+# In fact we have more pixels for fire in the second classification even though water bodies were not considered
 
 # Always from Copernicus Browser I imported the NDVI images
 # based on (B8-B4)/(B8+B4). This index is used to quantify the state of vegetation.
@@ -213,6 +214,8 @@ perc24
 
 # From these results we can clearly see a difference in the vegetation's state during time,
 # so this is probably one of the reasons why wildfires are becoming more and more frequent and destructive.
+
+# Creating a tabout 
 class <- c("Healthy vegetation","Burned areas") #Prima colonna
 dNBR <- c(89,11) #Seconda
 dNBR2 <- c(86,14) #Terza
@@ -221,14 +224,14 @@ tabout <- data.frame(class, dNBR, dNBR2)
 tabout #Visualizziamo il dataframe
 
 #Creiamo ora i grafici con ggplot
-#2017
+#dNBR
 ggplot(tabout, aes(x=class, y= dNBR, color=class)) + 
 geom_bar(stat="identity", aes(fill= class), width= 0.7)+
 ylim(c(0,100)) +
 ggtitle("Area d'indagine nel 2017") + xlab("Classi") + ylab("Valori percentuali")+
 theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
 
-#2023
+#dNBR+
 ggplot(tabout, aes(x=class, y=dNBR2, color=class)) + 
 geom_bar(stat="identity",aes(fill= class), width= 0.7)+        
 ylim(c(0,100))+
@@ -236,25 +239,47 @@ ggtitle("Area d'indagine nel 2023") + xlab("Classi") + ylab("Valori percentuali"
 theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
 
 #Visualizziamo i due grafici insieme con patchwork
-p1 <-ggplot(tabout, aes(x=class, y=dNBR, color=class)) + geom_bar(stat="identity", aes(fill=class), width= 0.7)+ ylim(c(0,100))+ggtitle("Area d'indagine nel 2017") + xlab("Classi") + ylab("Valori percentuali")+
+p1 <-ggplot(tabout, aes(x=class, y=dNBR, color=class)) + 
+geom_bar(stat="identity", aes(fill=class), width= 0.7)+ ylim(c(0,100))+ggtitle("NBR Delta") +
+xlab("Classes") + ylab("Percentage values")+
 theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
-p2 <-ggplot(tabout, aes(x=class, y=dNBR2, color=class))+ geom_bar(stat="identity", aes(fill=class),width= 0.7)+ ylim(c(0,100))+ggtitle("Area d'indagine nel 2023") + xlab("Classi") + ylab("Valori percentuali")+
+
+p2 <-ggplot(tabout, aes(x=class, y=dNBR2, color=class))+ 
+geom_bar(stat="identity", aes(fill=class),width= 0.7)+ ylim(c(0,100))+ggtitle("NBR+ Delta") +
+xlab("Classes") + ylab("Percentage values")+
 theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
 p1 + p2
 
 dev.off
 
+#PCA
+# 4 May
+pcimage4 <- im.pca(tc_may4)
+tot <- sum(37.570870, 6.896024, 4.354095)
 
+#PC1 76.9%
+37.570870*100/tot
+#PC2 14.1%
+6.896024*100/tot
+#PC3 8.9%
+4.354095*100/tot
 
+pc4<-pcimage4$PC1
+pc4.sd4<-focal(pc4, matrix(1/9, 3, 3), fun=sd)
+plot(pc4.sd4, col=viridis(100))
 
+# 19 May
+pcimage19 <- im.pca(tc_may19)
+total <- sum(36.396165, 5.596582, 3.811445)
 
+#PC1 79.4%
+36.396165*100/total
+#PC2 12.2%
+5.596582*100/total
+#PC3 8.3%
+3.811445*100/total
 
-
-
-
-
-
-
-
-
+pc19<-pcimage19$PC1
+pc19.sd19<-focal(pc19, matrix(1/9, 3, 3), fun=sd)
+plot(pc19.sd19, col=viridis(100))
 
