@@ -87,7 +87,7 @@ plot(NBR_may19, col = inferno(100))
 # it alows me to visualize the images together but always with 2 columns and 2 rows
 # It's faster than the par and used to overlap different bands to create a satellite image.
 stack <- c(NBR_may4, NBR_may19, NBR_june12)
-names(stack) <- c("NBR May 4th", "NBR May 19th", "NBR June 12th")
+names(stack) <- c("NBR May 4th", "NBR May 19th")
 plot(stack, col= inferno(100))
 
 # Let's now calculate the delta NBR, so the difference between the pre-fire and the post-fire
