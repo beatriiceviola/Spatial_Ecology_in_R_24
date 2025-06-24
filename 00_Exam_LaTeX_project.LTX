@@ -1,0 +1,329 @@
+\documentclass{beamer}
+\usepackage{graphicx}
+\usepackage{hyperref} 
+
+\usetheme{Dresden} 
+\usecolortheme{crane} 
+
+\title{Canada Wildfires}
+\author{Beatrice Viola}
+\institute{Scienze e Gestione della Natura - Alma Mater Sturdiorum, University of Bologna}
+\date{}
+
+\begin{document}
+
+\maketitle 
+
+\AtBeginSection[]
+{
+\begin{frame}{Outline}
+\tableofcontents[currentsection]
+\end{frame}
+} 
+
+
+\section{Materials and methods} 
+
+\begin{frame}{Images collection}
+    The images were taken from
+    \textbf{\href{https://browser.dataspace.copernicus.eu}{Copernicus Browser}}:
+    \bigskip
+    \begin{itemize}
+        \item  Selecting the area of interest
+        \item  Find cloud coverage lower than 5\%
+        \item Selecting True color, False color, SWIR and NDVI as levels
+        \item Saving the images in .jpg
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Packages} 
+    The packages used for this project are:
+    \bigskip 
+    \begin{itemize} 
+        \item terra
+        \item imageRy
+        \item viridis
+        \item ggplot2
+        \item patchwork
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Main functions}
+\bigskip
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+    \item    \texttt{library()} 
+    \item    \texttt{setwd()} 
+    \item    \texttt{par()} 
+    \item    \texttt{rast()}
+    \item    \texttt{colorRampPalette()}
+    \item    \texttt{R} come calcolatrice
+    \item    \texttt{c()}
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}  
+ \begin{itemize}
+    \item    \texttt{im.classify}
+    \item    \texttt{freq()}
+    \item    \texttt{ncell()}
+    \item    \texttt{plot()}
+    \item    \texttt{data.frame()}
+    \item    \texttt{ggplot()}
+    \item    \texttt{ggtitle()}      
+    \end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\section{Study area} 
+
+\begin{frame}{Where?}
+We are in Canada in the region of \textbf{Manitoba}.
+\bigskip
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{center}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Firehotspots.png}
+    \caption{Canada fires on May 31}
+\end{center}
+\end{column}
+
+    \begin{column}{0.5\textwidth}
+   \pause \begin{center}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Manitoba3.png}
+    \caption{Manitoba region}
+\end{center}
+\end{column}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}{Wildfires in 2025}
+In Canada, fires had always occurred, but they went from an average of 2.6 million hectares burned to more than \textbf{16 million} this year. 
+        \begin{center}
+                \centering
+                \includegraphics[width=0.5\linewidth]{areaburned3.jpeg}
+            \end{center}
+            \centering
+            \caption{Annual Area Burned}
+\end{frame}
+
+\begin{frame}{Wildfires in 2025}
+Spring starts earlier, forests dry out faster, and they\\ \textit{stay flammable longer}. \\And because northern latitudes are warming faster than the global average, Canada is being impacted by \textbf{extreme fires}.
+\bigskip
+\end{frame}
+
+\section{Data analysis} 
+\begin{frame}{Before and after the fire}
+Let's look at the west area of Lake Winnipeg, \textbf{Manitoba}.
+\bigskip
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\centering
+\caption{SWIR May 4th}
+\begin{center}
+    \centering
+    \includegraphics[width=1\linewidth]{may4swir.png}
+\end{center}
+\end{column}
+
+    \begin{column}{0.5\textwidth}
+   \pause 
+\centering
+\caption{SWIR May 19th}
+\begin{center}
+    \centering
+    \includegraphics[width=1\linewidth]{may19swir.png}
+\end{center}
+\end{column}
+
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Spectral Indices}
+Using the SWIR images I was able to calculate the NBR and NBR+ indeces:
+\bigskip
+\bigskip
+\begin{columns}
+    \begin{column}[t]{0.4\textwidth}
+    \centering
+    \textbf{NBR}\\ \small Normalized Burn Ratio
+   {\scriptsize
+   \begin{equation*}
+        NBR = \frac{NIR - SWIR}{NIR + SWIR}
+    \end{equation*}}
+    \end{column}
+
+    \begin{column}[t]{0.4\textwidth}
+    \centering
+    \textbf{NBR+}\\ \small Normalized Burn Ratio Plus
+    {\scriptsize
+   \begin{equation*}
+    NBR+ = \frac{NIR-SWIR-green-blue}{NIR+SWIR+green+blue}
+    \end{equation*}}
+    \end{column}   
+\end{columns}
+\end{frame}
+
+\begin{frame}{Delta NBR}
+\textbf{dNBR}: difference between NBR in pre-fire and post-fire images.
+\begin{center}
+     \centering
+     \includegraphics[width=0.8\linewidth]{dNBR.png}
+ \end{center} 
+\end{frame}
+
+
+\begin{frame}{Delta NBR+}
+\textbf{dNBR+}:difference between NBR+ in pre-fire and post-fire images.
+\begin{center}
+    \centering
+    \includegraphics[width=0.8\linewidth]{dNBR+.png}
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Classification}
+Based on the NBR index, the water bodies were classified as part of the fire area.
+\begin{columns}
+    \begin{column}{0.7\textwidth}
+   \begin{center}
+              \centering
+              \includegraphics[width=0.9\linewidth]{classNBR1.png}
+      \end{center}   
+    \end{column}
+
+    \begin{column}{0.4\textwidth}
+    \begin{itemize}
+        \item Healthy vegetation: 88.7\%
+        \item Burned areas: 11.3\%
+    \end{itemize}
+    \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Classification}
+Based on the NBR+ index, the water bodies were classified as part of the vegetation area and the fire zone was identified more clearly.
+\begin{columns}
+    \begin{column}{0.7\textwidth}
+   \begin{center}
+        \begin{center}
+            \centering
+            \includegraphics[width=1\linewidth]{dNBR+2.png}     
+        \end{center}
+    \end{center} 
+    \end{column}
+
+    \begin{column}{0.4\textwidth}
+    \begin{itemize}
+        \item Healthy vegetation: 85.7\%
+        \item Burned areas: 14.3\%
+    \end{itemize}
+    \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Graphics}
+By comparing the two indeces, NBR and NBR+, we obtain the following graphics:
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{graph.png}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Spectral Indices}
+Thanks to the NDVI index I was able to verify if there was any difference on the vegetation conditions between 2017 and 2024
+\bigskip
+\bigskip
+\begin{columns}
+    \begin{column}[t]{0.55\textwidth}
+    \centering
+    \textbf{DVI}\\ \small Difference Vegetation Index
+    \begin{equation*}
+        DVI = NIR-red
+    \end{equation*}
+    \end{column}
+
+    \begin{column}[t]{0.55\textwidth}
+    \centering
+    \textbf{NDVI}\\ \small Normalized Difference Vegetation Index
+    \begin{equation*}
+        NDVI = \frac{NIR - red}{NIR + red}
+    \end{equation*}
+    \end{column}   
+\end{columns}
+\end{frame}
+
+\begin{frame}{Classification}
+Based on the NDVI index I classified the images of 2017 and 2024 to quantify the loss of healthy vegetation
+\begin{columns}
+    \begin{column}{0.7\textwidth}
+        \begin{center}
+            \centering
+            \includegraphics[width=1\linewidth]{classveg2017.png}
+        \end{center}
+    \end{column}
+
+    \begin{column}{0.4\textwidth}
+    \begin{itemize}
+        \item Healthy vegetation: 89.5 \%
+        \item Damaged vegetation: 4.9\%
+        \item Water Bodies: 5.6\%
+    \end{itemize}
+    \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Classification}
+Based on the NDVI index I classified the images of 2017 and 2024 to quantify the loss of healthy vegetation
+\begin{columns}
+    \begin{column}{0.7\textwidth}
+       \begin{center}
+           \centering
+           \includegraphics[width=1\linewidth]{classveg2024.png}
+       \end{center}
+    \end{column}
+
+    \begin{column}{0.4\textwidth}
+    \begin{itemize}
+        \item Healthy vegetation: 79.1\%
+        \item Damaged vegetation: 15.5\%
+        \item Water Bodies: 5.4\%
+    \end{itemize}
+    \end{column}
+\end{columns}
+\end{frame}
+
+
+\section{Conclusion}
+
+\begin{frame}{Considerations}
+To summarize what we have seen:
+\bigskip
+\begin{itemize}
+    \item Comparing the two indeces we can clearly see that the \textbf{NBR+} is more accurate, thanks to the two more bands that it uses
+    \bigskip
+    \pause \item Indeed we obtain more pixels of burned area with this index even though it, correctly, doesn't consider the water bodies as damaged territory
+    \bigskip
+    \pause \item From the NDVI results of the images in 2017 and 2024 it appears a deterioration of the vegetation status
+    \bigskip
+    \pause \item This has probably contributed to the intensification of fires in this region
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The End}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\linewidth]{P1010174.JPG}
+\end{figure}
+\centering
+\large {Thank you for your attention!}
+\end{frame}
+
+\end{document}
