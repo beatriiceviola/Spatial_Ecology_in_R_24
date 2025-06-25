@@ -13,7 +13,6 @@ setwd("/Users/macbookairair/Downloads/Cartella")
 # The path to the folder will depend on the OS of your computer
 # Note that in windows, the path you get from windows explorer has opposite slashes that you need to change
 
-
 # In the package terra there is the function rast() that allow us to import data
 emi1 <- rast("1.jpg")
 
@@ -37,6 +36,7 @@ plot(emidif, col=cl) # Plot the difference with the new color palette
 
 # The Mato Grosso image can be downloaded directly from the NASA Earth Observatory website
 mato <- rast("matogrosso_l5_1992219_lrg.jpg") # Load the image
+
 # Plot the different RGB band combinations
 plotRGB(mato, r=1, g=2, b=3) 
 plotRGB(mato, r=2, g=1, b=3) 
