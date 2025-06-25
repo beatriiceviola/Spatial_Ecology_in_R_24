@@ -22,8 +22,6 @@ system.file("external/species.shp")  # shp is an extension meaning shape file ex
 # Since external is used to be in all folders let's write which package we want the external from:
 file <- system.file("external/species.shp", package="sdm")
 
-# The full path in my PC is "C:/Users/anton/AppData/Local/R/win-library/4.4/sdm/external/species.shp"
-
 # Now let's translate the shp file in a type of file R can use in vector
 # This function is essential since shp cannot be read by R and it's inside the terra package
 vect(file) 
