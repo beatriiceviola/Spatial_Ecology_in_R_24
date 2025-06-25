@@ -13,7 +13,7 @@ library(patchwork) # For coupling graphics
 devtools:: install_github("ducciorocchini/imageRy")
 
 # Then I set the working directory on R, this is the folder from which R will take all the datas
-#setwd("/Users/macbookairair/Downloads/Cartella")?????????????????????????????????????????????????????????????????????????
+setwd("/Users/macbookairair/Downloads/Cartella")
 
 # Loading the images
 # The first images were taken by Sentinel-2 and are in true color
@@ -57,7 +57,7 @@ plot(swir_may19)
 title("May 19", line = -6, cex=2) 
 dev.off()
 
-#Then I created a color palette where the greens rapresent the vegetation and the oranges rapresent the area of fire
+# Then I created a color palette where the greens rapresent the vegetation and the oranges rapresent the area of fire
 # The number 100, instead, rapresent the number of shades that I want for my palette
 fire <- colorRampPalette(c("darkolivegreen3", "darkolivegreen", "darkorange1", "darkorange4"))(100)
 
@@ -67,7 +67,7 @@ fire <- colorRampPalette(c("darkolivegreen3", "darkolivegreen", "darkorange1", "
 # SWIR stand for Short-wave infrared and, contrary to NIR, shows an high reflectance of burnt areas and low
 # reflectance of healthy vegetation.
 # So an high NBR value indicates healthy vegetation, a low one indicates recently burned areas.
-#NBR May 4
+# NBR May 4
 plot(swir_may4[[2]], col= fire) # Band of NIR
 plot(swir_may4[[1]], col= fire) # Band of SWIR
 diff.may4 = swir_may4[[2]] - swir_may4[[1]] 
@@ -75,7 +75,7 @@ sum.may4 = swir_may4[[1]] + swir_may4[[2]]
 NBR_may4 = (diff.may4) / (sum.may4) 
 plot(NBR_may4, col = inferno(100))  # Inferno is a color Palette taken from the viridis package
 
-#NBR May 19
+# NBR May 19
 plot(swir_may19[[2]], col= fire) # Band of NIR
 plot(swir_may19[[1]], col= fire) # Band of SWIR
 diff.may19 = swir_may19[[2]] - swir_may19[[1]] 
@@ -150,10 +150,10 @@ freq2 <- freq(classnbr2)
 # Total number
 tot2 <- ncell (classnbr2)
 
-#Proportion
+#Proportion:
 prop2 = freq2/tot2
 
-#Percentages
+#Percentages:
 #Healthy vegetation = 85.7%
 #Burned areas= 14.3%
 perc2 = prop2*100
@@ -223,31 +223,40 @@ dNBR2 <- c(86,14) #Terza
 tabout <- data.frame(class, dNBR, dNBR2)
 tabout #Visualizziamo il dataframe
 
-#Creiamo ora i grafici con ggplot
+# Let's now use ggplot to create the graphics
 #dNBR
 ggplot(tabout, aes(x=class, y= dNBR, color=class)) + 
 geom_bar(stat="identity", aes(fill= class), width= 0.7)+
 ylim(c(0,100)) +
-ggtitle("Area d'indagine nel 2017") + xlab("Classi") + ylab("Valori percentuali")+
+ggtitle("NBR Delta") + xlab("Classi") + ylab("Percentage values")+
 theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
 
 #dNBR+
 ggplot(tabout, aes(x=class, y=dNBR2, color=class)) + 
 geom_bar(stat="identity",aes(fill= class), width= 0.7)+        
 ylim(c(0,100))+
-ggtitle("Area d'indagine nel 2023") + xlab("Classi") + ylab("Valori percentuali")+
+ggtitle("NBR+ Delta") + xlab("Classi") + ylab("Percentage values")+
 theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
 
-#Visualizziamo i due grafici insieme con patchwork
+# Tabout is our dataframe, aes() are the aestetics so what the two axis x and y rapresent 
+# In our case the x is the classes, healthy vegetation and burned areas, and the y is the dNBR
+# Then with ylim to specify the minimum and maximum value on the y axis, while
+# with ggtitile I added the title of the plots, then with xlab and ylab the main for the axis and finally
+# with theme I defined the title to be bold
+
+# Now thanks to the package patchwork we can visualize these two graphics together
 p1 <-ggplot(tabout, aes(x=class, y=dNBR, color=class)) + 
-geom_bar(stat="identity", aes(fill=class), width= 0.7)+ ylim(c(0,100))+ggtitle("NBR Delta") +
-xlab("Classes") + ylab("Percentage values")+
+geom_bar(stat="identity", aes(fill=class), width= 0.7)+ 
+ylim(c(0,100))+
+ggtitle("NBR Delta") + xlab("Classes") + ylab("Percentage values")+
 theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
 
 p2 <-ggplot(tabout, aes(x=class, y=dNBR2, color=class))+ 
-geom_bar(stat="identity", aes(fill=class),width= 0.7)+ ylim(c(0,100))+ggtitle("NBR+ Delta") +
-xlab("Classes") + ylab("Percentage values")+
+geom_bar(stat="identity", aes(fill=class),width= 0.7)+ 
+ylim(c(0,100))+
+ggtitle("NBR+ Delta") + xlab("Classes") + ylab("Percentage values")+
 theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
+
 p1 + p2
 
 dev.off()
