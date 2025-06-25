@@ -86,7 +86,7 @@ plot(NBR_may19, col = inferno(100))
 # Now I create a stacksent, which is an array, and similarly to the par(mfrow=) function
 # it alows me to visualize the images together but always with 2 columns and 2 rows
 # It's faster than the par and used to overlap different bands to create a satellite image.
-stack <- c(NBR_may4, NBR_may19, NBR_june12)
+stack <- c(NBR_may4, NBR_may19)
 names(stack) <- c("NBR May 4th", "NBR May 19th")
 plot(stack, col= inferno(100))
 
