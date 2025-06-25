@@ -19,7 +19,6 @@ system.file("external")
 # In the external folder I have many dataset but I want one of them called species.shp
 system.file("external/species.shp")  # shp is an extension meaning shape file extension 
 
-
 # Since external is used to be in all folders let's write which package we want the external from:
 file <- system.file("external/species.shp", package="sdm")
 
@@ -44,7 +43,6 @@ plot(rana) # points representing presence or absence of rana
 # We obtaain 0 if the species is absent, 1 if it is present
 # 0 means absent and it's an uncertain data, it could be a mistake
 # In this case it could happen the data collector misses the species due to a mistake (many reasons possible)
-
 
 # Let's plot only the points where the species is present
 # To do so we use the previoulsy formed link (rana$occurance) as equal (==) to the
@@ -76,7 +74,6 @@ plot(abs)
 # Exercise plot presences in blue together with absences in red 
 plot(pres, col="blue") # First I open the plot with presence and then 
 points(abs, col="red", pch=19, cex=2) # I use points to highlight the absences in blue
-
 
 # How to import an image as a file from outside R?
 # We always use the system.file() function but this time we want the file elevation.asc
