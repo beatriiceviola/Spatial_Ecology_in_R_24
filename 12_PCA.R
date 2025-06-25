@@ -1,7 +1,6 @@
 # Multivariate analysis
 
 # from a multisystem of band 1 and band 2 i obtain a pc1 of the st dev 
-
 library(terra)
 library(imageRy)
 im.list()
