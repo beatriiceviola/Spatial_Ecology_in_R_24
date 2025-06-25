@@ -27,7 +27,6 @@ im.plotRGB(sent, r=1, g=2, b=3) # The vegetation reflects the NIR band and it ap
 # NIR on green
 im.plotRGB(sent, 2,1,3) 
 
-
 # Let's measure the standard deviation on a self chosen band
 # let's associate the first band to an object
 nir <- sent[[1]]
