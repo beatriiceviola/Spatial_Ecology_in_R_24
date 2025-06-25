@@ -1,7 +1,6 @@
 # Code for managing and visualizing remote sensing data
 
 # Let's install devtools, a package in CRAN that we need to create a connetcion with Github
-
 install.packages("devtools")
 library(devtools) # Then we check if it was correctly installed
 
@@ -9,39 +8,32 @@ library(devtools) # Then we check if it was correctly installed
 # that is contained in devtools
 # Inside this function I'll put the name of the user and the naame of the package that I want
 # in our case the user is "ducciorocchini" and the package is "imageRy"
-
 install_github("ducciorocchini/imageRy")
 library(imageRy)
 
 # To let everyone who's reading my code know frome where I tookthis package I can write it down like this:
-
 devtools:: install_github("ducciorocchini/imageRy") 
 
 # Every time I open up R again I won't need to reinstall the packages that I need
 # But I'll always need to recall them with "library()"
 
-
 # Another package that we need to install is "ggplot2" 
 # This alows me to make more beautiful graphic
-
 install.packages("ggplot2")
 library(ggplot2)
 
 # Let's make a list of all the images contained in the package imageRy
 # Every function in this package starts wit im.
-
 im.list()
 
 # To import a specific image we use "im.import("")"
 # In particular we want the image b2 from Sentinel-2 which correspond to the band of blue
 # So working in 490nm, very short wavelenght, all the objects reflecting blue will be visible
-
 b2 <-im.import("sentinel.dolomites.b2.tif" )
 
 # As always we can chenge the colors using the colorRampPalette function
 # Every color in this function needs to be under quotes and 
 # we have to specify the number of shades that we want
-
 cl <- colorRampPalette(c("cyan4","magenta","cyan", "chartreuse"))(100)
 plot(b2,col=cl)
 
@@ -64,12 +56,10 @@ plot(b8, col=cl)
 # Let's create a multiframe that will alow us to see all the four images together
 # We will use the par() function and we need 2 rows and 2 columns
 # the rows always go before the columns, and, since it's an array, we always use the concatenate function
-
 par(mfrow=c(2,2))
 
 # This function creates the frame (2x2 in our case)
 # But now we have to plot again the images to put them inside the frame
-
 plot(b2, col=cl)
 plot(b3, col=cl)
 plot(b4, col=cl)
@@ -83,7 +73,6 @@ plot(b8, col=cl)
 # Now it's easier to manipulate it as a single object containing all the infos
 # Firstly we create an array with our four bands thanks to the function concatenate 
 # and then we assign it to an object
-
 stacksent<- c(b2, b3, b4, b8)
 plot(sentstack, col=cl)
 
@@ -94,7 +83,6 @@ dev.off()
 # If I want to visualize only one of the bands in my stack I have to
 # specify that from my array I just want, for example, the first object by using  [[]]
 # I use two squared parenthesis because it's a double dimensional image
-
 plot(stacksent[[1]], col=cl) 
 
 # Since it will be useful in the future let's create an index to summarize to which
@@ -135,7 +123,6 @@ plot(b8, col=cl)
 # since I know that in my stacksent 3 is the red band that I leave on the red filter
 # 2 is the green band that I leave on the green filter and
 # 1 is the blue band that I leave on the blue filter
-
 im.plotRGB(stacksent, 3, 2, 1) # I can also avoid to write down r=, g= and b=
 
 # As we've seen RGB has 3 component but we have 4 bands
@@ -143,15 +130,12 @@ im.plotRGB(stacksent, 3, 2, 1) # I can also avoid to write down r=, g= and b=
 # I can also choose to put the NIR band on the red filter instead of the red band
 # In this way everything that reflects the near infrared will appear red and I'll gain new informations
 # Especially on vegetation because this one reflects a lot in NIR
-
 im.plotRGB(stacksent, 4, 3, 2) 
 
 # Let's try to put NIR on top of green band 
-
 im.plotRGB(stacksent, 3, 4, 2)
 
 # or NIR on top of blue band
-
 im.plotRGB(stacksent, 3, 2, 4)
 
 # We can now do a multiframe with these new images
