@@ -48,7 +48,7 @@ plot(elevation2)  # [[]] is more powerful because I dont'have to remember the na
 
 # Now we want to create a density map, but how do we let R calculting the plots as a continuous image?
 # By considering each group of dots as a single unit,
-# where each unit is going to be more or less dense according to the number of dots present in that area.???????????????????'
+# where each unit is going to be more or less dense according to the number of dots present in that area.
 
 # Now let's see other functions
 # We need to pass from point to a continuous surface
