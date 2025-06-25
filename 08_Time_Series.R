@@ -69,8 +69,3 @@ im.plotRGB(gr, 1,2,3)
 
 # So with red I see the highest temperature in 2000, with green the highest temperature in 2005
 # And with blue the highest temperature in 2015
-
-# NON HO CAPITO QUESTE ULTYIME DUE RIGHE DI MARI
-# variantions in frequencies given different classes, given datasets in time -> it's a ridgeline 
-# for example: how many pixels (in RGB) corresponding to a x temp?
-
