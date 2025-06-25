@@ -1,4 +1,4 @@
-# Let's investigate the relaation among sepcies in time
+# Let's investigate the relation among sepcies in time
 # Code to estimate temporal activity patterns of different species and their overlap 
 # First of all we're gonna need the package "overlap" from CRAN
 install.packages("overlap")
