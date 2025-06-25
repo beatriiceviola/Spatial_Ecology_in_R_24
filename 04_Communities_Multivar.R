@@ -13,13 +13,12 @@ head(dune)
 # To see the whole table i use View() with a capital letter
 View(dune) 
 
-
 # In the package vegan we will use the function "decorana", which give us the "Detrended Correspondance Analysis" 
 # DCA is a multivariate statistical technique that is very useful when the range is quite spread out and wide,
 # since it compacts the data mathemathically, reducing its dimensions 
 
 # Analysis
-multivar <- decorana(dune) # AS always we assing it to an object 
+multivar <- decorana(dune) # As always we assign it to an object 
 
 # The original set is compressed in 4 new axis 
 # And we want to know the lenght of each new axis since the lenght is the amount of range rapresented
