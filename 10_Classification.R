@@ -134,4 +134,5 @@ p1 + p2 # By adding the two objects I'll see them one next to the other
 # Since we are using percentages we will start from 0 and end to 100
 p1 <- ggplot(tabout, aes(x=class, y=y1992, color=class)) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
 p2 <- ggplot(tabout, aes(x=class, y=y2006, color=class)) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
+
 p1 + p2 # Now I can clearly value the loss of forest in this area
