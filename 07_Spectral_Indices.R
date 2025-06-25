@@ -101,7 +101,6 @@ plot(dvi2006, col=cl)
 
 dev.off()
     
-
 # NDVI (Normalize Different Vegetation Index)
 # same of DVI (NIR - RED) but divided by NIR+red as a denominator 
 # with NDVI you can compare every images even if they have different bits
