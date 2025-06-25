@@ -42,7 +42,7 @@ plot(sofia, luca, pch=19)
 
 # Another change that we can make is the dimension of our symbol
 # To do so we use "cex=" in the argument of the plot
-plot(sofia, luca, pch=19, cex=2) # In this way we make the fots bigger 
+plot(sofia, luca, pch=19, cex=2) # In this way we make the dots bigger 
 plot(sofia, luca, pch=19, cex=0.5) # In this way we make them smaller
 
 # Then we can modify the color by using "col=" in the argument
@@ -50,6 +50,6 @@ plot(sofia, luca, pch=19, cex=0.5) # In this way we make them smaller
 # or check this link https://r-graph-gallery.com/42-colors-names.html
 plot(sofia, luca, pch=19, cex=2, col="blue") 
 
-# One last change that I can m,ake is to add the labels in the plot
+# One last change that I can make is to add the labels in the plot
 # To do so we use "xlab=" to add a label to the x axis and "ylab=" to add a label in the y axis
 plot(sofia, luca, pch=19, cex=2, col="blue", xlab="C02", ylab="amount of fruits") 
