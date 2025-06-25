@@ -1,5 +1,5 @@
 # Spatial_Ecology_in_R_24
-This repository contains codes for Spatial Ecology in R at Unibo
+This repository contains codes for Spatial Ecology in R at University of Bologna
 
 ## Code ✍️
 
